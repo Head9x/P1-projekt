@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/PowerHouse/Debug
+/PowerHouse/x64/Debug
+/PowerHouse/.vs/PowerHouse/v17/ipch/AutoPCH/28cd6c04b6438515
+/PowerHouse/.vs/PowerHouse/v17
+/PowerHouse/.vs/PowerHouse/FileContentIndex
+/.vs
