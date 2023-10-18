@@ -24,7 +24,7 @@ Datapoint* readCSV(char *file_name)
     {
         column = 0;
         row++;
-        /*if (row == 1)  // Fjern denne multiline hvis der er descriptions i række 1.
+        /*if (row == 1)  // Fjern denne multiline comments hvis der er descriptions i række 1.
             continue;
         */
         char *value = strtok(buffer, ","); // buffer tokenizes med "," som delimiter.
@@ -73,7 +73,7 @@ Datapoint* readCSV(char *file_name)
                                     (data+i)->kolonne_4);
     }
     */
-    
+    fclose(fh);
     return data;
 
 }
