@@ -48,7 +48,6 @@ char *readSettings()
 
             if (matchFound == 1)
             {
-                // printf("\nCHECK\n");
                 printf("Printing strToken: %s", strToken);
 
                 char *output = strtok(strToken, ";");
