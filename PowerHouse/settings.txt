@@ -1,0 +1,3 @@
+startHour 5;
+endHour 17;
+carbonPercent 80;
