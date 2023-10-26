@@ -1,10 +1,16 @@
-// Denne struct repræsenterer en række i .csv-filen, og skal justeres for at passe til kolonneformatet.
-typedef struct Datapoint 
+typedef struct tm tm;
+
+// Data structure for the relevant data of a row from the .csv-file.
+typedef struct Datapoint
 {
-    char* kolonne_1;
-    char* kolonne_2;
-    float kolonne_3;
-    char* kolonne_4;
+    time_t datetime;
+    double ci_direct;
+    double ci_lca;
+    double low_percent;
+    double renew_percent;
+    
 } Datapoint;
 
-Datapoint* readCSV(char *file_name);
+// Read the .csv-file. Returns a pointer to an array of the type Datapoint.
+Datapoint* readCSV(char *filename);
+
