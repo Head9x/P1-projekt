@@ -3,8 +3,10 @@
 #include <string.h>
 #include <time.h>
 #include "csvRead.h"
+#define HOURS_PER_YEAR 8760
 
-Datapoint* readData(char *filename)
+
+Datapoint* readCSV(char *filename)
 {
     FILE *fh = fopen(filename, "r");
 
@@ -13,7 +15,7 @@ Datapoint* readData(char *filename)
     int row = 0;
     int column;
     // Allocation of the Datapoint-array, with the expected amounts of rows as the number of elements.
-    Datapoint *data = malloc(8760*sizeof(Datapoint));
+    Datapoint *data = malloc(HOURS_PER_YEAR*sizeof(Datapoint));
 
     // While-loop that goes through each line of the .csv-file and writes it to buffer[].
     while (fgets(buffer, 1024, fh) && row<9000)
@@ -35,12 +37,12 @@ Datapoint* readData(char *filename)
             
             if (column == 0)
             {
-                time_t year;
-                time_t month;
-                time_t day;
-                time_t hours;
-                time_t minutes;
-                time_t seconds;
+                int year;
+                int month;
+                int day;
+                int hours;
+                int minutes;
+                int seconds;
 
                 // Struct containing member that represent a date and time.
                 tm datetime;
