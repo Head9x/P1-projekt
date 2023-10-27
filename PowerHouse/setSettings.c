@@ -35,6 +35,4 @@ void setSettings(){
     // Close file
     fclose(settings);
 
-    return 0;
-
 }
