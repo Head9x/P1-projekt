@@ -1,79 +1,105 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "csvRead.h"
+#define HOURS_PER_YEAR 8760
 
-Datapoint* readCSV(char *file_name)
+
+Datapoint* readCSV(char *filename)
 {
-    
-    char buffer[1024];
-    
-    // Juster 128*sizeof(Datapoint) for hvor mange forventede rækker du har i din .csv-fil.
-    Datapoint *data = malloc(128*sizeof(Datapoint));
-    
+    FILE *fh = fopen(filename, "r");
 
-    FILE* fh = fopen(file_name, "r");
-    if (!fh)
-    {
-        printf("Kunne ikke åbne fil!\n");
-        return NULL;
-    }
+    // Uninitialized buffer to input the rows to.
+    char buffer[1024];
     int row = 0;
     int column;
-    while (fgets(buffer, 1024, fh))
+    // Allocation of the Datapoint-array, with the expected amounts of rows as the number of elements.
+    Datapoint *data = malloc(HOURS_PER_YEAR*sizeof(Datapoint));
+
+    // While-loop that goes through each line of the .csv-file and writes it to buffer[].
+    while (fgets(buffer, 1024, fh) && row<9000)
     {
         column = 0;
-        row++;
-        /*if (row == 1)  // Fjern denne multiline comments hvis der er descriptions i række 1.
-            continue;
-        */
-        char *value = strtok(buffer, ","); // buffer tokenizes med "," som delimiter.
         
-        // Dette loop allokerer memory til tokensne og, copierer tokensne ind på denne plads.
-        while (value)
+        // Tokenizes buffer with ',' as the delimiter.
+        char *tok = strtok(buffer, ",");
+        
+        /* Remove this comment if the first row does not contain data.
+        if (row == 0) {
+            continue;
+        }
+        */
+
+        // Keep going as long as a new token is found.
+        while (tok)
         {
-            char *current_token = malloc(strlen(value));
-            // Hvis en token konverteres til en værdi (float, int osv.), skal free(current_token); kaldes. 
-            // Ellers opstår der et memory leak.
-
-            strcpy(current_token, value);
-
+            
             if (column == 0)
             {
-                (data+(row-1))->kolonne_1 = current_token;
+                int year;
+                int month;
+                int day;
+                int hours;
+                int minutes;
+                int seconds;
+
+                // Struct containing member that represent a date and time.
+                tm datetime;
+                
+                // Parse the first column of the line to the tm struct.
+                sscanf(tok, "%d-%d-%d %d:%d:%d", &year, &month, &day, &hours, &minutes, &seconds);
+                datetime.tm_year = year - 1900;
+                datetime.tm_mon = month - 1;
+                datetime.tm_mday = day;
+                datetime.tm_hour = hours;
+                datetime.tm_min = minutes;
+                datetime.tm_sec = seconds;
+                datetime.tm_isdst = -1;
+                
+                // Convert the tm struct to seconds since epoch.
+                data[row].datetime = mktime(&datetime);
+                // If the first row does not contain data use this instead:
+                //data[row-1].datetime = mktime(&datetime);                
             }
-            if (column == 1)
+
+            if (column == 4)
             {
-                (data+(row-1))->kolonne_2 = current_token;
+                data[row].ci_direct = strtod(tok, NULL);
+                // If the first row does not contain data use this instead:
+                //data[row-1].ci_direct = strtod(tok, NULL);                
+                
             }
-            if (column == 2)
+            if (column == 5)
             {
-                (data+(row-1))->kolonne_3 = strtof(current_token, NULL);
-                free(current_token);
+                data[row].ci_lca = strtod(tok, NULL);
+                // If the first row does not contain data use this instead:                
+                //data[row-1].ci_lca = strtod(tok, NULL);
             }
-            if (column == 3)
+            if (column == 6)
             {
-                (data+(row-1))->kolonne_4 = current_token;
+
+                data[row].low_percent = strtod(tok, NULL);
+                // If the first row does not contain data use this instead:
+                //data[row-1].low_percent = strtod(tok, NULL);
+                
+            }
+            if (column == 7)
+            {
+                data[row].renew_percent = strtod(tok, NULL);
+                // If the first row does not contain data use this instead:
+                //data[row-1].renew_percent = strtod(tok, NULL);
             }
             
-            // Resten af linjen tokenizes.
-            value = strtok(NULL, ",");
             column++;
 
-        }
+            // Find the next token on the line.
+            tok = strtok(NULL, ",");
+        } 
+            
+        row++;
     }
 
-
-    /* Fjern denne kommentar for at printe de to første rækker.
-    for (int i = 0; i < 2; i++)
-    {
-        printf("%s\n%s\n%f\n%s\n",  (data+i)->kolonne_1,
-                                    (data+i)->kolonne_2,
-                                    (data+i)->kolonne_3,
-                                    (data+i)->kolonne_4);
-    }
-    */
-    fclose(fh);
-    return data;
-
+fclose(fh);
+return data;
 }
