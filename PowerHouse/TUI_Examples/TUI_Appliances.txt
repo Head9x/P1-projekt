@@ -1,0 +1,14 @@
+------------------------------------------
+You have the following options, press the corresponding key to continue
+
+a. - List devices
+b. - Add device
+c. - Delete device
+d. - Edit device
+
+r. - Return
+q. - Quit
+------------------------------------------
+
+Press key to continue...
+> _	
