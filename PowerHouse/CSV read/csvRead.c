@@ -9,6 +9,10 @@
 Datapoint* readCSV(char *filename)
 {
     FILE *fh = fopen(filename, "r");
+    if(!fh) {
+        fprintf(stderr, "Failed to locate or open CSV-file!\n");
+        exit(EXIT_FAILURE);
+    }
 
     // Uninitialized buffer to input the rows to.
     char buffer[1024];
