@@ -10,7 +10,7 @@ void removeChar();
 char *jsonhandler();
 
 int main(void) { 
-        char *filename = "testfile-multiline.json";
+        char *filename = "log000";
         //open and get the file handle
         FILE* fh;
         fopen_s(&fh, filename, "r");
