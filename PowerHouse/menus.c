@@ -9,18 +9,18 @@
 
 typedef enum MENU
 {
-    start,
-    time,
-    carbon,
-    get24hStatus
+    menu_start,
+    menu_time,
+    menu_carbon,
+    menu_get24hStatus
 } MENU;
 
-int run = 1;
-int MenuID = start;
+int running = 1;
+int MenuID = menu_start;
 
 typedef struct menu
 {
-    enum MENU menuID;                              // Unique ID
+    enum MENU ID;                                  // Unique ID
     int subMenuCount;                              // Amount of sub menus
     enum MENU subMenus[MENU_SUBMENU_MAX_AMOUNT];   // Array of sub menus
     char name[MENU_NAME_MAX_LENGTH];               // Menu name
@@ -30,9 +30,9 @@ typedef struct menu
 } menu;
 
 menu menus[MENU_MAX_COUNT] = {
-    {start, 2, {time, carbon, get24hStatus}, "Start menu", "start menu description here", "start menu help here"},
-    {time, 2, {}, "Time menu", "time menu description here", "time menu help here"},
-    {carbon, 2, {}, "Carbon menu", "carbon menu description here", "carbon menu help here"},
+    {menu_start, 2, {menu_time, menu_carbon, menu_get24hStatus}, "Start menu", "start menu description here", "start menu help here"},
+    {menu_time, 2, {}, "Time menu", "time menu description here", "time menu help here"},
+    {menu_carbon, 2, {}, "Carbon menu", "carbon menu description here", "carbon menu help here"},
 };
 
 // prototypes
@@ -45,8 +45,8 @@ char standardScan();
 
 int main(void)
 {
-    exec_menu(start);
-    while (run)
+    exec_menu(menu_start);
+    while (running)
     {
         exec_menu(MenuID);
     }
@@ -76,15 +76,15 @@ int exec_menu(int MenuID)
 {
     switch (MenuID)
     {
-    case start:
+    case menu_start:
         start_function();
         break;
 
-    case time:
+    case menu_time:
         time_function();
         break;
 
-    case carbon:
+    case menu_carbon:
         carbon_function();
         break;
 
@@ -95,16 +95,16 @@ int exec_menu(int MenuID)
 
 int start_function()
 {
-    print_menu(start);
+    print_menu(menu_start);
 
     switch (standardScan())
     {
     case 'a':
-        exec_menu(time);
+        exec_menu(menu_time);
         break;
 
     case 'b':
-        exec_menu(carbon);
+        exec_menu(menu_carbon);
         break;
 
     case 'c':
@@ -120,7 +120,7 @@ int start_function()
 
 int time_function()
 {
-    print_menu(time);
+    print_menu(menu_time);
 
     switch (standardScan())
     {
@@ -137,7 +137,7 @@ int time_function()
 
 int carbon_function()
 {
-    print_menu(carbon);
+    print_menu(menu_carbon);
 
     switch (standardScan())
     {
@@ -163,11 +163,11 @@ char standardScan()
               //returnMenu();
               break; */
     case 's': // Standard case goto start menu
-        exec_menu(start);
+        exec_menu(menu_start);
         break;
     case 'q': // Standard case quit program
         printf("\n-----ENDING PROGRAM-----\n");
-        run = 0;
+        running = 0;
         break;
     }
     return scan;
