@@ -179,7 +179,7 @@ void appliance_remove_function(void)
     printf("Enter appliance name: ");
     scanf(" %s", &c);
 
-    printf("appliance removed %s \n", Remove(c) ? "succesful" : "unsuccesful");
+    printf("appliance removed %s \n", Remove(c) ? "Successfully" : "Unsuccessfully");
 }
 
 void data_print_function(void)
