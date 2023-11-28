@@ -18,5 +18,62 @@
     <ClCompile Include="Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="menus.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="setSettings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="readSettings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSV read\csvRead.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="appliance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="appliances.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="setSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSV read\csvRead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TUI_Examples\TUI.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="TUI_Examples\TUI_Appliances.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="TUI_Examples\TUI_Time.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="settings.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="datafiler\DK-DK2_2022_hourly.csv">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datafiler\log000">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datafiler\log001">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="datafiler\log002">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
