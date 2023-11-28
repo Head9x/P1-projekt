@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "setSettings.h"
 
+#if 0
 int main(void)
 {
  setSettings();
 }
+#endif
 
 void setSettings(){
 
@@ -34,5 +37,4 @@ void setSettings(){
 
     // Close file
     fclose(settings);
-
 }
