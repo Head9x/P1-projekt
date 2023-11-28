@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "Main.h"
+#include "Menu.h"
 
 /* 
 Code start - keep clean
@@ -10,6 +11,7 @@ int main(int argc, char *argv[])
 {
 	main_state = Start;
 
+	printf("Hello world!\n");
 	PrintStartArguments(argc, argv);
 
 	// Handle start arguments
@@ -20,9 +22,8 @@ int main(int argc, char *argv[])
 	else
 		return StartError;
 
-	menu(0);
+	run_menu(menu_start);
 
-	printf("Hello world!");
 	return 0;
 }
 
@@ -30,10 +31,15 @@ void PrintStartArguments(int argc, char* argv[])
 {
 	for (int i = 0; i < argc; i++)
 	{
-		printf("Argument [%d]: %s \n", i, argv);
+		printf("Argument [%d]: %s \n", i, argv[i]);
 	}
 }
 
-void menu(int current_menu) {
-	return;
+void run_menu (int startup_menu) {
+	MenuID = startup_menu;
+	while (MenuID != menu_end)
+	{
+		exec_menu(MenuID);
+	}
+	return 0;
 }
