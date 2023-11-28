@@ -1,3 +1,5 @@
+#include <string.h>
+
 typedef struct Appliance
 {
     char name[50]; //Appliance name 
