@@ -41,5 +41,4 @@ void run_menu (int startup_menu) {
 	{
 		exec_menu(MenuID);
 	}
-	return 0;
 }
