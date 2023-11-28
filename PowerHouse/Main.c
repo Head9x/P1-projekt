@@ -2,6 +2,7 @@
 
 #include "Main.h"
 #include "Menu.h"
+#include "Menu.c"
 
 /* 
 Code start - keep clean
