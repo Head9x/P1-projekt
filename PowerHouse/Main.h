@@ -1,7 +1,8 @@
 #pragma once
 
 int main(int argc, char* argv[]);
-void menu(int);
+void run_menu(int);
+
 void PrintStartArguments(int argc, char* argv[]);
 void SetLogfile();
 void SetDatasource();
@@ -17,5 +18,5 @@ enum MainState {
 } main_state;
 
 
-void SetLogfile() {}
-void SetDatasource() {}
+void SetLogfile() {} // not implemented
+void SetDatasource() {} // not implemented

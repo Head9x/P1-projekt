@@ -1,0 +1,16 @@
+------------------------------------------
+You have the following options, press the corresponding key to continue
+
+a. - Print current values
+b. - Set start time
+c. - Set end time
+d. - Use next 24hrs
+e. - Define how long power will be used for
+f. - 
+
+r. - Return
+q. - Quit
+------------------------------------------
+
+Press key to continue...
+> _	
