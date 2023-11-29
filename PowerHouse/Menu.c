@@ -167,7 +167,7 @@ void appliance_upsert_function(void)
     scanf(" %lf", &a.wh);
     printf("Enter appliance runTime: ");
     scanf(" %lf", &a.runTime);
-    Upsert(a);
+    appliance_Upsert(a);
 
     printf("Update succesful \n");
 }
@@ -179,7 +179,7 @@ void appliance_remove_function(void)
     printf("Enter appliance name: ");
     scanf(" %s", &c);
 
-    printf("appliance removed %s \n", Remove(c) ? "Successfully" : "Unsuccessfully");
+    printf("appliance removed %s \n", appliance_Remove(c) ? "Successfully" : "Unsuccessfully");
 }
 
 void data_print_function(void)
