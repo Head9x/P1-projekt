@@ -184,7 +184,7 @@ void appliance_remove_function(void)
 void data_print_function(void)
 {
     int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows);
+    Datapoint* data = readCSV("PowerHouse/datafiler/DK-DK2_2022_hourly.csv", &total_rows);
     for (int i = 0; i < total_rows; i++)
     {
         Datapoint p = data[i];
