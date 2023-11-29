@@ -1,3 +1,6 @@
+#ifndef CSVREADHEADER
+#define CSVREADHEADER
+
 typedef struct tm tm;
 
 // Data structure for the relevant data of a row from the .csv-file.
@@ -12,5 +15,6 @@ typedef struct Datapoint
 } Datapoint;
 
 // Read the .csv-file. Returns a pointer to an array of the type Datapoint.
-Datapoint* readCSV(char *filename);
+Datapoint* readCSV(char *filename, int *rows);
 
+#endif

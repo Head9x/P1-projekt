@@ -11,7 +11,7 @@ char userVar[USERVARMAX] = {0};
 char output[50];
 
 char *readSettings();
-
+#if 0
 int main()
 {
     printf("Input variable: ");
@@ -22,6 +22,7 @@ int main()
 
     return 0;
 }
+#endif
 
 char *readSettings()
 {
