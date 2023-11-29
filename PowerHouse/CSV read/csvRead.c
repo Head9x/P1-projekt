@@ -10,7 +10,8 @@
 Datapoint* readCSV(char *filename, int *rows)
 {
     FILE *fh = fopen(filename, "r");
-    if(!fh) {
+    if(fh == NULL) 
+    {
         fprintf(stderr, "Failed to locate or open CSV-file!\n");
         exit(EXIT_FAILURE);
     }

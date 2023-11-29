@@ -30,6 +30,12 @@ char *readSettings()
 
     // Read file
     FILE *settings = fopen("settings.txt", "r+");
+    if (settings == NULL)
+    {
+        fprintf(stderr, "Failed to open or locate settings.txt!\n");
+        exit(EXIT_FAILURE);
+    }
+    
 
     // For each line in file
     while (fgets(line, LINEMAX, settings))
