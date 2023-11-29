@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-
+#include "stdincludes.h"
+#include "csvRead.h"
+#include "appliance.h"
 #include "Menu.h"
-#include "appliances.h"
-#include "CSV read/csvRead.h"
 
 #define MENU_MAX_COUNT 200 // maximum amount of menus possible in total
 #define MENU_SUBMENU_MAX_AMOUNT 17
@@ -11,7 +9,10 @@
 #define MENU_DESCRIPTION_MAX_LENGTH 200
 #define MENU_HELP_MAX_LENGTH 200
 
-int running = 1;
+int running;
+
+extern Appliance Appliances[50];
+extern int ApplianceCount;
 
 typedef struct menu_item
 {
@@ -25,6 +26,8 @@ typedef struct menu_item
     char help[MENU_HELP_MAX_LENGTH];               // Menu help
 
 } menu_item;
+
+
 
 /* Array of all menus 
 *  Has to be in the same order as enum MENU
@@ -71,11 +74,7 @@ int main(void)
 #endif // 0
 
 void clear_terminal() {
-#if _WIN32
-    system("@cls||clear");
-#else
     printf("\e[1;1H\e[2J"); // Clear Terminal
-#endif // 0
 }
 
 int print_menu(int MenuID)
@@ -167,7 +166,7 @@ void appliance_upsert_function(void)
     scanf(" %lf", &a.wh);
     printf("Enter appliance runTime: ");
     scanf(" %lf", &a.runTime);
-    appliance_Upsert(a);
+    _appliance_Upsert(a);
 
     printf("Update succesful \n");
 }
@@ -179,7 +178,7 @@ void appliance_remove_function(void)
     printf("Enter appliance name: ");
     scanf(" %s", &c);
 
-    printf("appliance removed %s \n", appliance_Remove(c) ? "Successfully" : "Unsuccessfully");
+    printf("appliance removed %s \n", _appliance_Remove(c) ? "Successfully" : "Unsuccessfully");
 }
 
 void data_print_function(void)
@@ -189,6 +188,6 @@ void data_print_function(void)
     for (int i = 0; i < total_rows; i++)
     {
         Datapoint p = data[i];
-        printf("[%d]: %.1lf%%\n", i, p.renew_percent);
+        printf("[%d]: %.1lf%%\n", i+1, p.renew_percent);
     }
 }

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "csvread.h": "c",
+        "menu.h": "c",
+        "appliances.h": "c"
+    },
+    "cmake.configureOnOpen": false
+}

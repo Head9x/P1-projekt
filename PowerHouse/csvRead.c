@@ -1,9 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include "stdincludes.h"
 
 #include "csvRead.h"
+
+
 #define HOURS_PER_YEAR 8760
 
 

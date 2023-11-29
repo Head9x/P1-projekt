@@ -1,9 +1,11 @@
-#include <stdio.h>
+#include "stdincludes.h"
 
 #include "Main.h"
 #include "Menu.h"
-#include "Menu.c"
-#include "CSV read/csvRead.c"
+#include "appliance.h"
+#include "csvRead.h"
+
+
 
 /* 
 Code start - keep clean
