@@ -1,4 +1,3 @@
-#pragma once
 
 int main(int argc, char* argv[]);
 void run_menu(int);
@@ -16,7 +15,6 @@ enum MainState {
 	StartError,
 	UnknownError,
 } main_state;
-
 
 void SetLogfile() {} // not implemented
 void SetDatasource() {} // not implemented
