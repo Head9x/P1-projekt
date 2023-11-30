@@ -8,13 +8,13 @@ Appliance Appliances[50] = {
     {"kedel", 20, 3.2},
 };
 
-void _appliance_Insert(Appliance a)
+void ApplianceInsert(Appliance a)
 {
      Appliances[ApplianceCount++] = a;
 }
 
 // returns the index of the element or -1 if not found
-int _appliance_Find(char key[])
+int ApplianceFind(char key[])
 {
     for (int i = 0; i < ApplianceCount; i++)
     {
@@ -26,9 +26,9 @@ int _appliance_Find(char key[])
     return -1;
 }
 
-bool _appliance_Update(Appliance a)
+bool ApplianceUpdate(Appliance a)
 {
-    int id = _appliance_Find(a.name);
+    int id = ApplianceFind(a.name);
     if (id == -1) return false;
 
     Appliances[id] = a;
@@ -36,15 +36,15 @@ bool _appliance_Update(Appliance a)
     return true;
 }
 
-void _appliance_Upsert(Appliance a)
+void ApplianceUpsert(Appliance a)
 {
-    if (!_appliance_Update(a))
-        _appliance_Insert(a);
+    if (!ApplianceUpdate(a))
+        ApplianceInsert(a);
 }
 
-bool _appliance_Remove(char key[])
+bool ApplianceRemove(char key[])
 {
-    int id = _appliance_Find(key);
+    int id = ApplianceFind(key);
     if (id == -1) return false;
 
     for (int i = id; i < ApplianceCount - 1; i++)

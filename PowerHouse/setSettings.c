@@ -30,7 +30,6 @@ void setSettings(){
         fprintf(stderr, "Failed to open or locate settings.txt!\n");
         exit(EXIT_FAILURE);
     }
-    
 
     fprintf(settings, "startHour %d;\nendHour %d;\n", startHour, endHour);
 

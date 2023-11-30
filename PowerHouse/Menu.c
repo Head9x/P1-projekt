@@ -27,8 +27,6 @@ typedef struct menu_item
 
 } menu_item;
 
-
-
 /* Array of all menus 
 *  Has to be in the same order as enum MENU
 */
@@ -74,7 +72,11 @@ int main(void)
 #endif // 0
 
 void clear_terminal() {
+    #if _WIN32
+    system("@cls||clear");
+    #else
     printf("\e[1;1H\e[2J"); // Clear Terminal
+    #endif
 }
 
 int print_menu(int MenuID)
@@ -166,7 +168,7 @@ void appliance_upsert_function(void)
     scanf(" %lf", &a.wh);
     printf("Enter appliance runTime: ");
     scanf(" %lf", &a.runTime);
-    _appliance_Upsert(a);
+    ApplianceUpsert(a);
 
     printf("Update succesful \n");
 }
@@ -178,13 +180,13 @@ void appliance_remove_function(void)
     printf("Enter appliance name: ");
     scanf(" %s", &c);
 
-    printf("appliance removed %s \n", _appliance_Remove(c) ? "Successfully" : "Unsuccessfully");
+    printf("appliance removed %s \n", ApplianceRemove(c) ? "Successfully" : "Unsuccessfully");
 }
 
 void data_print_function(void)
 {
     int total_rows;
-    Datapoint* data = readCSV("PowerHouse/datafiler/DK-DK2_2022_hourly.csv", &total_rows);
+    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows);
     for (int i = 0; i < total_rows; i++)
     {
         Datapoint p = data[i];

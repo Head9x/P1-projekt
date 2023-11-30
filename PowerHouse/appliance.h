@@ -7,14 +7,8 @@ typedef struct Appliance
 
 } Appliance;
 
-
-void _appliance_Insert(Appliance a);
-int _appliance_Find(char key[]);
-bool _appliance_Update(Appliance a);
-void _appliance_Upsert(Appliance a);
-bool _appliance_Remove(char key[]);
-
-
-
- 
-#define APPLIANCEHEADER
+void ApplianceInsert(Appliance a);
+int ApplianceFind(char key[]);
+bool ApplianceUpdate(Appliance a);
+void ApplianceUpsert(Appliance a);
+bool ApplianceRemove(char key[]);

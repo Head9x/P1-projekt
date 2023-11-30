@@ -1,10 +1,7 @@
 #include "stdincludes.h"
-
 #include "csvRead.h"
 
-
 #define HOURS_PER_YEAR 8760
-
 
 Datapoint* readCSV(char *filename, int *rows)
 {

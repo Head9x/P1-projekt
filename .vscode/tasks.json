@@ -8,7 +8,7 @@
                 "-g",
                 "${workspaceFolder}\\PowerHouse\\*.c",
                 "-o",
-                "PowerHouse.exe"
+                "${workspaceFolder}\\PowerHouse\\PowerHouse.exe"
             ],
             "detail": "Build executable for PowerHouse.",
             "problemMatcher": [

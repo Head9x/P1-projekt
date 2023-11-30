@@ -5,14 +5,13 @@
             "name": "Build and debug PowerHouse",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\PowerHouse.exe",
+            "program": "${workspaceFolder}\\PowerHouse\\PowerHouse.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
