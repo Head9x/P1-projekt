@@ -1,21 +1,20 @@
-#include <stdbool.h>
+#include "stdincludes.h"
 #include "appliance.h"
 
 int ApplianceCount = 3;
-
- static Appliance Appliances[50] = {
+Appliance Appliances[50] = {
     {"vaskemaskine", 100, 1},
     {"toerretumbler", 50, 1.2},
     {"kedel", 20, 3.2},
 };
 
- void Insert(Appliance a)
- {
+void ApplianceInsert(Appliance a)
+{
      Appliances[ApplianceCount++] = a;
- }
+}
 
 // returns the index of the element or -1 if not found
-int Find(char key[])
+int ApplianceFind(char key[])
 {
     for (int i = 0; i < ApplianceCount; i++)
     {
@@ -27,9 +26,9 @@ int Find(char key[])
     return -1;
 }
 
-bool Update(Appliance a)
+bool ApplianceUpdate(Appliance a)
 {
-    int id = Find(a.name);
+    int id = ApplianceFind(a.name);
     if (id == -1) return false;
 
     Appliances[id] = a;
@@ -37,15 +36,15 @@ bool Update(Appliance a)
     return true;
 }
 
-void Upsert(Appliance a)
+void ApplianceUpsert(Appliance a)
 {
-    if (!Update(a))
-        Insert(a);
+    if (!ApplianceUpdate(a))
+        ApplianceInsert(a);
 }
 
-bool Remove(char key[])
+bool ApplianceRemove(char key[])
 {
-    int id = Find(key);
+    int id = ApplianceFind(key);
     if (id == -1) return false;
 
     for (int i = id; i < ApplianceCount - 1; i++)
