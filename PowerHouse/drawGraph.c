@@ -1,6 +1,7 @@
 #include "stdincludes.h"
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
+#include "csvRead.h"
 #include "drawGraph.h"
 
 
@@ -36,4 +37,76 @@ bool draw_scatterplot(GraphParams data)
     }
     
     return success;
+}
+
+int graph_exec(DataType type, Datapoint *data, time_t day)
+{
+    double hours[24];
+    double datapoints[24];
+    bool successfull_print;
+
+    for (int i = 0; i < 24; i++)
+    {
+        hours[i] = i;
+    }
+
+    int i = 0;
+    while (data[i].datetime != day) 
+    {
+        if(i == 8760) break;
+        i++;
+    }
+    if(i == 8760) return 1;
+    
+
+    switch (type)
+    {
+    case LOWPERCENT:
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            datapoints[j] = data[j+i].low_percent;
+        }
+    } break;
+
+    case RENEWPERCENT:
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            datapoints[j] = data[j+i].renew_percent;
+        }        
+    } break;
+
+    case CIDIRECT:
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            datapoints[j] = data[j+i].ci_direct;
+        }
+    } break;
+
+    case CILCA:
+    {
+        for (int j = 0; j < 24; j++)
+        {
+            datapoints[j] = data[j+i].ci_lca;
+        }
+    } break;
+    default:
+        return 1;
+    }
+
+    wchar_t msg[] = L"Error printing graph!\n";
+    size_t msglen = wcslen(msg);
+
+    RGBABitmapImageReference *canvasref = CreateRGBABitmapImageReference();
+    StringReference *errmsg = CreateStringReference(msg, msglen);
+    successfull_print = DrawScatterPlot(canvasref, 1280, 720, hours, 24, datapoints, 24, errmsg);
+
+    if (successfull_print)
+    {
+        
+    }
+    
+
 }
