@@ -1,4 +1,8 @@
+#if 0
 #pragma once
+#endif
+
+#define MENUHEADER
 
 // MENU enum, each MENU type represent a menu action - some actions will themselves have submenus 
 typedef enum MENU
@@ -16,6 +20,7 @@ typedef enum MENU
 
     menu_end
 } MENU;
+
 
 static MENU MenuID = menu_start;
 

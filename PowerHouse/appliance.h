@@ -1,4 +1,3 @@
-#include <string.h>
 
 typedef struct Appliance
 {
@@ -7,3 +6,9 @@ typedef struct Appliance
     double runTime; // time to run appliance rounded to whole hour
 
 } Appliance;
+
+void ApplianceInsert(Appliance a);
+int ApplianceFind(char key[]);
+bool ApplianceUpdate(Appliance a);
+void ApplianceUpsert(Appliance a);
+bool ApplianceRemove(char key[]);

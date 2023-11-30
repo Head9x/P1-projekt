@@ -56,8 +56,8 @@ dkms.conf
 /PowerHouse/.vs/PowerHouse/v17
 /PowerHouse/.vs/PowerHouse/FileContentIndex
 /.vs
-.vscode/launch.json
-.vscode/tasks.json
+#.vscode/launch.json
+#.vscode/tasks.json
 .DS_Store
 PowerHouse/menus
 /PowerHouse/example1.png
