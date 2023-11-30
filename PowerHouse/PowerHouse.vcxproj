@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CSV read\csvRead.c" />
+    <ClCompile Include="appliance.c" />
+    <ClCompile Include="csvRead.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
     <ClCompile Include="pbPlots\example1.c" />
@@ -33,8 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="appliance.h" />
-    <ClInclude Include="appliances.h" />
-    <ClInclude Include="CSV read\csvRead.h" />
+    <ClInclude Include="csvRead.h" />
     <ClInclude Include="examples.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Menu.h" />
