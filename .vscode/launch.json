@@ -19,7 +19,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "Build Powerhouse"
+            "preLaunchTask": "Build PowerHouse Debug"
         }
     ]
 
