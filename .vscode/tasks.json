@@ -26,6 +26,7 @@
             "args": [
                 "-g",
                 "${workspaceFolder}\\PowerHouse\\*.c",
+                "${workspaceFolder}\\PowerHouse\\pbPlots\\*.c",
                 "-o",
                 "${workspaceFolder}\\PowerHouse\\PowerHouse.exe"
             ],
