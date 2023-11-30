@@ -5,6 +5,10 @@
 #include "appliance.h"
 #include "csvRead.h"
 
+#include "pbPlots/pbPlots.h"
+#include "pbPlots/supportLib.h"
+
+#include "examples.h"
 
 
 /* 
@@ -25,6 +29,8 @@ int main(int argc, char *argv[])
 		main_state = OK;
 	else
 		return StartError;
+	
+	for (int i = 1; i <= 4; i++) run_pbplot_example(i);
 
 	run_menu(menu_start);
 

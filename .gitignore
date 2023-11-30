@@ -60,3 +60,7 @@ dkms.conf
 #.vscode/tasks.json
 .DS_Store
 PowerHouse/menus
+/PowerHouse/example1.png
+/PowerHouse/example2.png
+/PowerHouse/example3.png
+/PowerHouse/example4.png
