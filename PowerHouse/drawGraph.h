@@ -22,4 +22,3 @@ typedef struct GraphParams
 GraphParams graph_input();
 void graph_exec(GraphParams graph_input);
 int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day);
-int graph_boxplot_exec(DataType type, Datapoint *data, time_t first_day, time_t last_day);
