@@ -10,7 +10,7 @@ typedef enum MENU
     menu_start,
     menu_appliance,
     menu_data_print,
-    menu_graph_test,
+    menu_graph,
     menu_time,
     menu_carbon,
 
