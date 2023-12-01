@@ -4,6 +4,7 @@
 #include "Menu.h"
 #include "appliance.h"
 #include "csvRead.h"
+#include "SettingHandler.h"
 
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
@@ -23,14 +24,14 @@ int main(int argc, char *argv[])
 	PrintStartArguments(argc, argv);
 
 	// Handle start arguments
-	SetLogfile();
+	SetSettingsFile(argc, argv);
 	SetDatasource();
 	if (logfile_set && datasource_set)
 		main_state = OK;
 	else
 		return StartError;
 	
-	for (int i = 1; i <= 4; i++) run_pbplot_example(i);
+	//for (int i = 1; i <= 4; i++) run_pbplot_example(i);
 
 	run_menu(menu_start);
 
@@ -47,8 +48,22 @@ void PrintStartArguments(int argc, char* argv[])
 
 void run_menu (int startup_menu) {
 	MenuID = startup_menu;
-	while (MenuID != menu_end)
+	exec_menu(MenuID);
+}
+
+void SetSettingsFile(int argc, char* argv[])
+{
+	for (int i = 0; i < argc; i++)
 	{
-		exec_menu(MenuID);
+		if (strcmp(argv[i], "-s") != 0) 
+			continue;
+		
+		if (i + 1 == argc) 
+			break; // missing second argument, TODO: we could provide a warning in the console
+
+		SetSettingPath(argv[i + 1]);
+		return;
 	}
+
+	SetSettingPath(NULL);
 }
