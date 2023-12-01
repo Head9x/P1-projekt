@@ -32,8 +32,6 @@ void SetSettingPath(const char* path)
     {
         if (number_of_settings >= MAX_NUMBER_OF_SETTINGS) break;
 
-        printf("setting: %s\n", line);
-
         strcpy(settings[number_of_settings].key, strtok(line, delimiter1));
         strcpy(settings[number_of_settings++].value, strtok(NULL, delimiter2));
     }
