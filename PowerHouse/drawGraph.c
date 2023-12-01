@@ -174,18 +174,12 @@ GraphParams graph_input()
     {
         printf("Please choose a valid graph type.\n");
         scanf(" %d", &input.graph_type);
+        input.graph_type--;
     }
 
     printf("You have chosen: ");
-    switch (input.graph_type)
-    {
-    case SCATTERPLOT:
-        printf("%s\n", GraphType_strings[SCATTERPLOT]);
-        break;
-    default:
-        break;
-    }
-
+    printf("%s\n", GraphType_strings[input.graph_type]);
+    
     printf("Which data do you want to graph?\n\n");
 
     for (int i = 0; i < MAX_DATA_TYPE; i++)
@@ -199,27 +193,11 @@ GraphParams graph_input()
     {
         printf("Please choose a valid data type.\n");
         scanf(" %d", &input.data_type);
+        input.data_type--;
     }
     
     printf("You have chosen: ");
-    switch (input.data_type)
-    {
-    case LOWPERCENT:
-        printf("%s\n", DataType_strings[LOWPERCENT]);
-        break;
-    case RENEWPERCENT:
-        printf("%s\n", DataType_strings[RENEWPERCENT]); 
-        break;   
-    case CIDIRECT:
-        printf("%s\n", DataType_strings[CIDIRECT]);
-        break;
-    case CILCA:
-        printf("%s\n", DataType_strings[CILCA]);
-        break;
-    
-    default:
-        break;
-    }
+    printf("%s\n", DataType_strings[input.data_type]); 
 
     printf("Which day do you wish to see the graph for?\n");
     printf("Please input in format yyyy-MM-dd\n");
