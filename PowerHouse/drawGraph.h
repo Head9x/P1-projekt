@@ -20,5 +20,5 @@ typedef struct GraphParams
 } GraphParams;
 
 GraphParams graph_input();
-void graph_exec(GraphParams graph_input);
+void graph_exec(GraphParams input);
 int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day);

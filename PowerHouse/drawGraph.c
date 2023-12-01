@@ -26,8 +26,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
     settings->scatterPlotSeries = s;
     settings->scatterPlotSeriesLength = 1;
 
-    
-
     wchar_t type_strings[MAX_DATA_TYPE][50] = {
         {L"Low percent"},
         {L"Renewable percent"},
@@ -106,7 +104,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         settings->titleLength = type_strings_len[CILCA];
 
     } break;
-
 
     default:
         return 1;
@@ -219,6 +216,7 @@ void graph_exec(GraphParams input)
     {
     case SCATTERPLOT:
         graph_scatterplot_exec(input.data_type, data, input.day);
+        system("graph.png");
         break;
     
     default:

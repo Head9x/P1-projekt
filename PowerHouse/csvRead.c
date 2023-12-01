@@ -68,7 +68,7 @@ Datapoint* readCSV(char *filename, int *rows, bool has_header)
                     break;
                 }
 
-                case  4:
+                case 4:
                 {
                     if (has_header)
                         data[row-1].ci_direct = strtod(tok, NULL);                
