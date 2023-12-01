@@ -3,9 +3,8 @@
 
 #define HOURS_PER_YEAR 8760
 
-Datapoint* readCSV(char *filename, int *rows, bool has_header)
+Datapoint* readCSV(char *filename, int *rows)
 {
-    // "C:/Users/Chrin/P1/P1-Projekt/PowerHouse/datafiler/DK-DK2_2022_hourly.csv"
     FILE *fh = fopen(filename, "r");
     if(fh == NULL) 
     {
@@ -21,18 +20,19 @@ Datapoint* readCSV(char *filename, int *rows, bool has_header)
     Datapoint *data = malloc(HOURS_PER_YEAR*sizeof(Datapoint));
 
     // While-loop that goes through each line of the .csv-file and writes it to buffer[].
-    while (fgets(buffer, 1024, fh) && (has_header) ? row < HOURS_PER_YEAR+1 : row < HOURS_PER_YEAR)
+    while (fgets(buffer, 1024, fh) && row < HOURS_PER_YEAR)
     {
         column = 0;
         
         // Tokenizes buffer with ',' as the delimiter.
         char *tok = strtok(buffer, ",");
         
-        if (has_header && row == 0) {
-            row++;
+        /* Remove this comment if the first row does not contain data.
+        if (row == 0) {
             continue;
         }
-        
+        */
+
         // Keep going as long as a new token is found.
         while (tok)
         {
@@ -61,44 +61,39 @@ Datapoint* readCSV(char *filename, int *rows, bool has_header)
                     datetime.tm_isdst = -1;
 
                     // Convert the tm struct to seconds since epoch.
-                    if (has_header)
-                        data[row-1].datetime = mktime(&datetime);
-                    else   
-                        data[row].datetime = mktime(&datetime);
+                    data[row].datetime = mktime(&datetime);
+                    // If the first row does not contain data use this instead:
+                    //data[row-1].datetime = mktime(&datetime);   
                     break;
                 }
 
                 case  4:
                 {
-                    if (has_header)
-                        data[row-1].ci_direct = strtod(tok, NULL);                
-                    else
-                        data[row].ci_direct = strtod(tok, NULL);
+                    data[row].ci_direct = strtod(tok, NULL);
                     // If the first row does not contain data use this instead:
+                    //data[row-1].ci_direct = strtod(tok, NULL);                
                     break;
                 }
                 case 5:
                 {
-                    if (has_header)
-                        data[row-1].ci_lca = strtod(tok, NULL);
-                    else
-                        data[row].ci_lca = strtod(tok, NULL);
+                    data[row].ci_lca = strtod(tok, NULL);
+                    // If the first row does not contain data use this instead:                
+                    //data[row-1].ci_lca = strtod(tok, NULL);
                     break;
                 }
                 case 6:
                 {
-                    if (has_header)
-                        data[row-1].low_percent = strtod(tok, NULL);
-                    else
-                        data[row].low_percent = strtod(tok, NULL);
+
+                    data[row].low_percent = strtod(tok, NULL);
+                    // If the first row does not contain data use this instead:
+                    //data[row-1].low_percent = strtod(tok, NULL);
                     break;
                 }
                 case 7:
                 {
-                    if (has_header)
-                        data[row-1].renew_percent = strtod(tok, NULL);
-                    else
-                        data[row].renew_percent = strtod(tok, NULL);
+                    data[row].renew_percent = strtod(tok, NULL);
+                    // If the first row does not contain data use this instead:
+                    //data[row-1].renew_percent = strtod(tok, NULL);
                     break;
                 }
             }
@@ -113,13 +108,6 @@ Datapoint* readCSV(char *filename, int *rows, bool has_header)
     }
 
     fclose(fh);
-    if (has_header)
-    {
-        *rows = row-1;
-    } 
-    else
-    {
-        *rows = row;
-    }
+    *rows = row;
     return data;
 }

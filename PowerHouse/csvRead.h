@@ -13,4 +13,4 @@ struct Datapoint
 
 typedef struct Datapoint Datapoint;
 // Read the .csv-file. Returns a pointer to an array of the type Datapoint.
-Datapoint* readCSV(char *filename, int *rows, bool has_header);
+Datapoint* readCSV(char *filename, int *rows);

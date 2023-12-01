@@ -1,7 +1,6 @@
 #include "stdincludes.h"
 #include "csvRead.h"
 #include "appliance.h"
-#include "drawGraph.h"
 #include "Menu.h"
 
 #define MENU_MAX_COUNT 200 // maximum amount of menus possible in total
@@ -32,10 +31,9 @@ typedef struct menu_item
 *  Has to be in the same order as enum MENU
 */
 menu_item menus[MENU_MAX_COUNT] = {
-    {menu_start, 's', 5, {menu_appliance, menu_data_print, menu_time, menu_carbon, menu_graph_test}, "Start menu", "start menu description here", "start menu help here"},
+    {menu_start, 's', 4, {menu_appliance, menu_data_print, menu_time, menu_carbon}, "Start menu", "start menu description here", "start menu help here"},
     {menu_appliance, 'a', 3, { menu_appliance_print, menu_appliance_upsert, menu_appliance_remove,}, "Appliance menu", "Interact with your current appliances", "help"},
     {menu_data_print, 'p', 0, {0}, "Print data", "print data description", "print data help"},
-    {menu_graph_test, 'g', 0, {0}, "Draw Graph", "Draws a test graph", "Graph Help"},
     {menu_time, 't', 0, {0}, "Time menu", "time menu description here", "time menu help here"},
     {menu_carbon, 'c', 0, {0}, "Carbon menu", "carbon menu description here", "carbon menu help here"},
 
@@ -52,7 +50,6 @@ void (*functions[MENU_MAX_COUNT])(void) = {
     0,
     0,
     &data_print_function,
-    &graph_draw,
     0,
     0,
 
@@ -189,16 +186,10 @@ void appliance_remove_function(void)
 void data_print_function(void)
 {
     int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
+    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows);
     for (int i = 0; i < total_rows; i++)
     {
         Datapoint p = data[i];
         printf("[%d]: %.1lf%%\n", i+1, p.renew_percent);
     }
-}
-
-void graph_draw(void)
-{
-    GraphParams input = graph_input();
-    graph_exec(input);
 }
