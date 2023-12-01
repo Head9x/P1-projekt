@@ -10,6 +10,39 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
     double datapoints[24];
     bool successfull_print;
 
+    ScatterPlotSeries *series = GetDefaultScatterPlotSeriesSettings();
+    series->xs = hours;
+    series->xsLength = 24;
+    series->ys = datapoints;
+    series->ysLength = 24;
+
+
+    ScatterPlotSettings *settings = GetDefaultScatterPlotSettings();
+    settings->width = 1280;
+    settings->height = 720;
+    settings->autoBoundaries = true;
+    settings->autoPadding = true;
+    ScatterPlotSeries *s[] = {series};
+    settings->scatterPlotSeries = s;
+    settings->scatterPlotSeriesLength = 1;
+
+    
+
+    wchar_t type_strings[MAX_DATA_TYPE][50] = {
+        {L"Low percent"},
+        {L"Renewable percent"},
+        {L"CI direct"},
+        {L"CI LCA"},
+    };
+    
+    size_t type_strings_len[MAX_DATA_TYPE];
+
+    for (int i = 0; i < MAX_DATA_TYPE; i++)
+    {
+        type_strings_len[i] = wcslen(type_strings[i]);
+    }
+    
+
     for (int i = 0; i < 24; i++)
     {
         hours[i] = i;
@@ -32,6 +65,10 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         {
             datapoints[j] = data[j+i].low_percent;
         }
+
+        settings->title = type_strings[LOWPERCENT];
+        settings->titleLength = type_strings_len[LOWPERCENT];
+        
     } break;
 
     case RENEWPERCENT:
@@ -39,7 +76,11 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         for (int j = 0; j < 24; j++)
         {
             datapoints[j] = data[j+i].renew_percent;
-        }        
+        }   
+
+        settings->title = type_strings[RENEWPERCENT];
+        settings->titleLength = type_strings_len[RENEWPERCENT];
+
     } break;
 
     case CIDIRECT:
@@ -48,6 +89,10 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         {
             datapoints[j] = data[j+i].ci_direct;
         }
+
+        settings->title = type_strings[CIDIRECT];
+        settings->titleLength = type_strings_len[CIDIRECT];
+
     } break;
 
     case CILCA:
@@ -56,7 +101,13 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         {
             datapoints[j] = data[j+i].ci_lca;
         }
+
+        settings->title = type_strings[CILCA];
+        settings->titleLength = type_strings_len[CILCA];
+
     } break;
+
+
     default:
         return 1;
     }
@@ -67,6 +118,8 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
     RGBABitmapImageReference *canvasref = CreateRGBABitmapImageReference();
     StringReference *errmsg = CreateStringReference(msg, msglen);
     successfull_print = DrawScatterPlot(canvasref, 1280, 720, hours, 24, datapoints, 24, errmsg);
+    successfull_print = DrawScatterPlotFromSettings(canvasref, settings, errmsg);
+
 
     if (successfull_print)
     {
@@ -84,8 +137,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         }
         fprintf(stderr, "\n");
     }
-    
-
 }
 
 GraphParams graph_input()
@@ -93,7 +144,6 @@ GraphParams graph_input()
 
     char GraphType_strings[MAX_GRAPH_TYPE][50] = {
         {"Scatterplot"},
-        {"Boxplot"},
     };
 
     char DataType_strings[MAX_DATA_TYPE][50] = {
@@ -109,7 +159,14 @@ GraphParams graph_input()
     day.tm_sec = 0;
     day.tm_isdst = -1;
 
+    tm secondday;
+    secondday.tm_hour = 0;
+    secondday.tm_min = 0;
+    secondday.tm_sec = 0;
+    day.tm_isdst = -1;
     GraphParams input;
+    input.secondday = 0;
+
     printf("Choose a which type of graph you wish to be printed:\n\n");
     
     for (int i = 0; i < MAX_GRAPH_TYPE; i++)
@@ -130,9 +187,6 @@ GraphParams graph_input()
     {
     case SCATTERPLOT:
         printf("%s\n", GraphType_strings[SCATTERPLOT]);
-        break;
-    case BOXPLOT:
-        printf("%s\n", GraphType_strings[BOXPLOT]);
         break;
     default:
         break;
@@ -181,6 +235,7 @@ GraphParams graph_input()
     day.tm_mon -= 1;
     
     input.day = mktime(&day);
+    
     return input;
 }
 
@@ -193,8 +248,7 @@ void graph_exec(GraphParams input)
     case SCATTERPLOT:
         graph_scatterplot_exec(input.data_type, data, input.day);
         break;
-    case BOXPLOT:
-        break;
+    
     default:
         break;
     }

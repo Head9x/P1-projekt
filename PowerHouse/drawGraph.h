@@ -1,6 +1,5 @@
 typedef enum GraphTypes {
     SCATTERPLOT,
-    BOXPLOT,
     MAX_GRAPH_TYPE,
     
 } GraphTypes;
@@ -18,6 +17,7 @@ typedef struct GraphParams
     GraphTypes graph_type;
     DataType data_type;
     time_t day;
+    time_t secondday;
 } GraphParams;
 
 GraphParams graph_input();
