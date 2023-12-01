@@ -31,6 +31,7 @@
     <ClCompile Include="pbPlots\supportLib.c" />
     <ClCompile Include="readSettings.c" />
     <ClCompile Include="setSettings.c" />
+    <ClCompile Include="SettingHandler.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="appliance.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="pbPlots\pbPlots.h" />
     <ClInclude Include="pbPlots\supportLib.h" />
     <ClInclude Include="setSettings.h" />
+    <ClInclude Include="SettingHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="settings.txt" />
