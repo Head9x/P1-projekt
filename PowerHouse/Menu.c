@@ -52,7 +52,7 @@ void (*functions[MENU_MAX_COUNT])(void) = {
     0,
     0,
     &data_print_function,
-    &graph_test,
+    &graph_draw,
     0,
     0,
 
@@ -197,29 +197,8 @@ void data_print_function(void)
     }
 }
 
-void graph_test(void)
+void graph_draw(void)
 {
-    int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
-    double* low_carbon = malloc(sizeof(double) * total_rows);
-    double* time = malloc(sizeof(double)*total_rows);
-    for (int i = 0; i < total_rows; i++)
-    {
-        low_carbon[i] = data[i].low_percent;
-        time[i] = data[i].datetime;
-    }
-    
-    GraphParams params = {
-        SCATTERPLOT,
-        time,
-        total_rows,
-        low_carbon,
-        total_rows
-    };
-
-    draw_scatterplot(params);
-
-    free(time);
-    free(low_carbon);
-    free(data);
+    GraphParams input = graph_input();
+    graph_exec(input);
 }

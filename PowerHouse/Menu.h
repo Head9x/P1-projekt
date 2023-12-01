@@ -35,4 +35,4 @@ void appliance_remove_function(void);
 
 void data_print_function(void);
 
-void graph_test(void);
+void graph_draw(void);

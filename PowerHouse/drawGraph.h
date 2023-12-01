@@ -1,6 +1,7 @@
 typedef enum GraphTypes {
-    BOXPLOT,
     SCATTERPLOT,
+    BOXPLOT,
+    MAX_GRAPH_TYPE,
     
 } GraphTypes;
 
@@ -8,19 +9,18 @@ typedef enum DataType {
     LOWPERCENT,
     RENEWPERCENT,
     CIDIRECT,
-    CILCA
+    CILCA,
+    MAX_DATA_TYPE,
 } DataType;
 
 typedef struct GraphParams
 {
-    GraphTypes type;
-    double *x;
-    int x_points;
-    double *y;
-    int y_points;
-    time_t time;
+    GraphTypes graph_type;
+    DataType data_type;
+    time_t day;
 } GraphParams;
 
-bool draw_scatterplot(GraphParams data);
-bool draw_date_scatterplot(double *time, double *data);
-int graph_exec(DataType type, Datapoint *data, time_t day);
+GraphParams graph_input();
+void graph_exec(GraphParams graph_input);
+int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day);
+int graph_boxplot_exec(DataType type, Datapoint *data, time_t first_day, time_t last_day);

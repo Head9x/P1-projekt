@@ -4,42 +4,7 @@
 #include "csvRead.h"
 #include "drawGraph.h"
 
-
-
-bool draw_scatterplot(GraphParams data)
-{
-    double *xs = data.x;
-    int x_len = data.x_points;
-    double *ys = data.y;
-    int y_len = data.y_points;
-    bool success;
-    
-    RGBABitmapImageReference *canvasref = CreateRGBABitmapImageReference();
-    StringReference *errMsg = CreateStringReference(L"ERR!", 4);
-    success = DrawScatterPlot(canvasref, 1280, 720, xs, x_len, ys, y_len, errMsg);
-
-    printf("%d\n", success);
-
-    if (success)
-    {
-        size_t length;
-        double* pngdata = ConvertToPNG(&length, canvasref->image);
-        WriteToFile(pngdata, length, "TestGraph.png");
-        DeleteImage(canvasref->image);
-    }
-    else {
-        fprintf(stderr, "Error: ");
-        for (int i = 0; i < errMsg->stringLength; i++)
-        {
-            fprintf(stderr, "%c", errMsg->string[i]);
-        }
-        fprintf(stderr, "\n");
-    }
-    
-    return success;
-}
-
-int graph_exec(DataType type, Datapoint *data, time_t day)
+int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
 {
     double hours[24];
     double datapoints[24];
@@ -105,8 +70,134 @@ int graph_exec(DataType type, Datapoint *data, time_t day)
 
     if (successfull_print)
     {
-        
+        size_t length;
+        double *pngdata = ConvertToPNG(&length, canvasref->image);
+        WriteToFile(pngdata, length, "graph.png");
+        DeleteImage(canvasref->image);
+    }
+    else
+    {
+        fprintf(stderr, "Error: ");
+        for (int i = 0; i < errmsg->stringLength; i++)
+        {
+            fprintf(stderr, "%c", errmsg->string[i]);
+        }
+        fprintf(stderr, "\n");
     }
     
 
+}
+
+GraphParams graph_input()
+{
+
+    char GraphType_strings[MAX_GRAPH_TYPE][50] = {
+        {"Scatterplot"},
+        {"Boxplot"},
+    };
+
+    char DataType_strings[MAX_DATA_TYPE][50] = {
+        {"Low Percent"},
+        {"Renewable Percent"},
+        {"Carbon Intensity Direct"},
+        {"Carbon Intensity LCA"},
+    };
+
+    tm day;
+    day.tm_hour = 0;
+    day.tm_min = 0;
+    day.tm_sec = 0;
+    day.tm_isdst = -1;
+
+    GraphParams input;
+    printf("Choose a which type of graph you wish to be printed:\n\n");
+    
+    for (int i = 0; i < MAX_GRAPH_TYPE; i++)
+    {
+        printf("%d. %s\n", i+1, GraphType_strings[i]);
+    }
+    
+    scanf(" %d", &input.graph_type);
+    input.graph_type--;
+    while (input.graph_type >= MAX_GRAPH_TYPE) 
+    {
+        printf("Please choose a valid graph type.\n");
+        scanf(" %d", &input.graph_type);
+    }
+
+    printf("You have chosen: ");
+    switch (input.graph_type)
+    {
+    case SCATTERPLOT:
+        printf("%s\n", GraphType_strings[SCATTERPLOT]);
+        break;
+    case BOXPLOT:
+        printf("%s\n", GraphType_strings[BOXPLOT]);
+        break;
+    default:
+        break;
+    }
+
+    printf("Which data do you want to graph?\n\n");
+
+    for (int i = 0; i < MAX_DATA_TYPE; i++)
+    {
+        printf("%d. %s\n", i+1, DataType_strings[i]);
+    }
+    
+    scanf(" %d", &input.data_type);
+    input.data_type--;
+    while (input.data_type >= MAX_DATA_TYPE)
+    {
+        printf("Please choose a valid data type.\n");
+        scanf(" %d", &input.data_type);
+    }
+    
+    printf("You have chosen: ");
+    switch (input.data_type)
+    {
+    case LOWPERCENT:
+        printf("%s\n", DataType_strings[LOWPERCENT]);
+        break;
+    case RENEWPERCENT:
+        printf("%s\n", DataType_strings[RENEWPERCENT]); 
+        break;   
+    case CIDIRECT:
+        printf("%s\n", DataType_strings[CIDIRECT]);
+        break;
+    case CILCA:
+        printf("%s\n", DataType_strings[CILCA]);
+        break;
+    
+    default:
+        break;
+    }
+
+    printf("Which day do you wish to see the graph for?\n");
+    printf("Please input in format yyyy-MM-dd\n");
+    scanf(" %d-%d-%d", &day.tm_year, &day.tm_mon, &day.tm_mday);
+    
+    day.tm_year -= 1900;
+    day.tm_mon -= 1;
+    
+    input.day = mktime(&day);
+    return input;
+}
+
+void graph_exec(GraphParams input)
+{
+    int total_rows;
+    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
+    switch (input.graph_type)
+    {
+    case SCATTERPLOT:
+        graph_scatterplot_exec(input.data_type, data, input.day);
+        break;
+    case BOXPLOT:
+        break;
+    default:
+        break;
+    }
+
+    free(data);
 }
