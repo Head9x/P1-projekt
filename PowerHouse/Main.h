@@ -3,7 +3,7 @@ int main(int argc, char* argv[]);
 void run_menu(int);
 
 void PrintStartArguments(int argc, char* argv[]);
-void SetLogfile();
+void SetSettingsFile(int argc, char* argv[]);
 void SetDatasource();
 
 int logfile_set = 1,
@@ -16,5 +16,4 @@ enum MainState {
 	UnknownError,
 } main_state;
 
-void SetLogfile() {} // not implemented
 void SetDatasource() {} // not implemented
