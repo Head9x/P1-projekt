@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	else
 		return StartError;
 	
-	//for (int i = 1; i <= 4; i++) run_pbplot_example(i);
+	for (int i = 1; i <= 4; i++) run_pbplot_example(i);
 
 	run_menu(menu_start);
 
