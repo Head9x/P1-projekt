@@ -17,7 +17,6 @@ typedef struct GraphParams
     GraphTypes graph_type;
     DataType data_type;
     time_t day;
-    time_t secondday;
 } GraphParams;
 
 GraphParams graph_input();

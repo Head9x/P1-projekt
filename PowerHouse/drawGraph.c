@@ -159,14 +159,8 @@ GraphParams graph_input()
     day.tm_sec = 0;
     day.tm_isdst = -1;
 
-    tm secondday;
-    secondday.tm_hour = 0;
-    secondday.tm_min = 0;
-    secondday.tm_sec = 0;
-    day.tm_isdst = -1;
     GraphParams input;
-    input.secondday = 0;
-
+    
     printf("Choose a which type of graph you wish to be printed:\n\n");
     
     for (int i = 0; i < MAX_GRAPH_TYPE; i++)
