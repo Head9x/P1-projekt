@@ -145,7 +145,7 @@ int exec_menu(int MenuID)
         }
     }
 
-    return currentMenu;
+    return 0;
 }
 
 
@@ -170,7 +170,7 @@ void appliance_print_function(void)
     }
    
     printf("------------------------------------------\n");
-    printf("Press any ENTER to continue\n\n");
+    printf("Press any key + ENTER to continue\n\n");
     standardScan(); // wait for user to proceed
 }
 void appliance_upsert_function(void)
