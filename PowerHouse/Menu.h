@@ -10,7 +10,7 @@ typedef enum MENU
     menu_start,
     menu_appliance,
     menu_data_print,
-    
+    menu_graph_test,
     menu_time,
     menu_carbon,
 
@@ -34,3 +34,5 @@ void appliance_upsert_function(void);
 void appliance_remove_function(void);
 
 void data_print_function(void);
+
+void graph_draw(void);
