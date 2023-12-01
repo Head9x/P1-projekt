@@ -9,7 +9,8 @@
 #define MENU_DESCRIPTION_MAX_LENGTH 200
 #define MENU_HELP_MAX_LENGTH 200
 
-int running;
+int running = 1;
+int previousMenu = -1;
 
 extern Appliance Appliances[50];
 extern int ApplianceCount;
@@ -103,25 +104,50 @@ int print_menu(int MenuID)
 
 int exec_menu(int MenuID)
 {
-    menu_item current = menus[MenuID];
-    if (current.subMenuCount == 0) // this is an action
+    int currentMenu = MenuID;
+    while (running)
     {
-        functions[MenuID](); // execute function
-    }
-    else
-    {
-        print_menu(MenuID);
-        char next_menu = standardScan();
-        for(int i = 0; i < current.subMenuCount; i++)
+        menu_item current = menus[currentMenu];
+
+        if (current.subMenuCount == 0) // this is an action
         {
-            if (menus[current.subMenus[i]].key == next_menu) {
-                exec_menu(current.subMenus[i]);
+            functions[currentMenu](); // execute function
+            if (previousMenu != -1) {
+                currentMenu = previousMenu; // Return to the previous menu
+                previousMenu = -1; // Reset previousMenu after returning
+            }
+        }
+        else
+        {
+            print_menu(currentMenu);
+            char next_menu = standardScan();
+
+            switch (next_menu)
+            {
+            case 's': // Standard case goto start menu
+                currentMenu = menu_start;
                 break;
+            case 'q': // Standard case quit program
+                printf("\n-----ENDING PROGRAM-----\n");
+                running = 0;
+                break;
+            default:
+                for (int i = 0; i < current.subMenuCount; i++)
+                {
+                    if (menus[current.subMenus[i]].key == next_menu)
+                    {
+                        previousMenu = currentMenu; // Store the current menu as the previous menu
+                        currentMenu = current.subMenus[i];
+                        break;
+                    }
+                }
             }
         }
     }
-    return MenuID;
+
+    return 0;
 }
+
 
 char standardScan()
 {
@@ -129,16 +155,6 @@ char standardScan()
 
     scanf(" %c", &scan);
 
-    switch (scan)
-    {
-    case 's': // Standard case goto start menu
-        exec_menu(menu_start);
-        break;
-    case 'q': // Standard case quit program
-        printf("\n-----ENDING PROGRAM-----\n");
-        running = 0;
-        break;
-    }
     return scan;
 }
 
@@ -154,7 +170,7 @@ void appliance_print_function(void)
     }
    
     printf("------------------------------------------\n");
-    printf("Press any key to continue\n\n");
+    printf("Press any key + ENTER to continue\n\n");
     standardScan(); // wait for user to proceed
 }
 void appliance_upsert_function(void)
@@ -193,3 +209,4 @@ void data_print_function(void)
         printf("[%d]: %.1lf%%\n", i+1, p.renew_percent);
     }
 }
+

@@ -48,10 +48,7 @@ void PrintStartArguments(int argc, char* argv[])
 
 void run_menu (int startup_menu) {
 	MenuID = startup_menu;
-	while (MenuID != menu_end)
-	{
-		exec_menu(MenuID);
-	}
+	exec_menu(MenuID);
 }
 
 void SetSettingsFile(int argc, char* argv[])
