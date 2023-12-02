@@ -24,10 +24,6 @@
     <ClCompile Include="drawGraph.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
-    <ClCompile Include="pbPlots\example1.c" />
-    <ClCompile Include="pbPlots\example2.c" />
-    <ClCompile Include="pbPlots\example3.c" />
-    <ClCompile Include="pbPlots\example4.c" />
     <ClCompile Include="pbPlots\pbPlots.c" />
     <ClCompile Include="pbPlots\supportLib.c" />
     <ClCompile Include="readSettings.c" />

@@ -9,8 +9,6 @@
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
 
-#include "examples.h"
-
 /* 
 Code start - keep clean
 
