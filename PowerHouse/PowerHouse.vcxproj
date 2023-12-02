@@ -24,6 +24,7 @@
     <ClCompile Include="drawGraph.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
+    <ClCompile Include="MenuFunctions.c" />
     <ClCompile Include="pbPlots\pbPlots.c" />
     <ClCompile Include="pbPlots\supportLib.c" />
     <ClCompile Include="readSettings.c" />
