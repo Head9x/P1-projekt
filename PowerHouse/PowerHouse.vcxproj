@@ -34,7 +34,6 @@
     <ClInclude Include="appliance.h" />
     <ClInclude Include="csvRead.h" />
     <ClInclude Include="drawGraph.h" />
-    <ClInclude Include="examples.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="pbPlots\pbPlots.h" />
