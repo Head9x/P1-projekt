@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="appliance.c" />
     <ClCompile Include="csvRead.c" />
+    <ClCompile Include="drawGraph.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
     <ClCompile Include="pbPlots\example1.c" />
@@ -36,6 +37,7 @@
   <ItemGroup>
     <ClInclude Include="appliance.h" />
     <ClInclude Include="csvRead.h" />
+    <ClInclude Include="drawGraph.h" />
     <ClInclude Include="examples.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Menu.h" />
