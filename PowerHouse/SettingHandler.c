@@ -5,7 +5,7 @@
 
 #define MAX_NUMBER_OF_SETTINGS 250
 
-static char* _path = "settings.txt";
+static const char* _path = "settings.txt";
 static int number_of_settings = 0;
 static setting settings[MAX_NUMBER_OF_SETTINGS];
 
@@ -111,7 +111,7 @@ int HasSetting(const char* key)
 // Get the setting from setting set
 const setting GetSetting(const char* key)
 {
-    auto setting _setting = { NULL, NULL };
+    auto setting _setting = { "", "" };
 
     int setting_index = SettingFind(key);
     if (setting_index <= -1)
