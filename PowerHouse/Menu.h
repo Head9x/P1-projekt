@@ -25,6 +25,7 @@ typedef enum MENU
 static MENU MenuID = menu_start;
 
 // prototype functions
+void clear_terminal();
 int print_menu(int);
 int exec_menu(int);
 char standardScan();
