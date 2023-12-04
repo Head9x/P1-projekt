@@ -5,7 +5,7 @@
 #include "Menu.c"
 #include "appliance.h"
 #include "csvRead.h"
-#include "SettingHandler.h"
+#include "SettingHandler.c"
 
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
