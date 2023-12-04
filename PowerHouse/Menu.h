@@ -14,6 +14,8 @@ typedef enum MENU
     menu_time,
     menu_carbon,
 
+    menu_run_appliance,
+
     menu_appliance_print,
     menu_appliance_upsert,
     menu_appliance_remove,
@@ -35,5 +37,7 @@ void appliance_upsert_function(void);
 void appliance_remove_function(void);
 
 void data_print_function(void);
+
+void calculate_appliance_run(void);
 
 void graph_draw(void);
