@@ -98,7 +98,7 @@ void calculate_appliance_run(void)
     day.tm_min = 0;
     day.tm_sec = 0;
     day.tm_isdst = -1;
-    printf("Which day do you wish to see the graph for?\n");
+    printf("Which start time do you wish to calculate for?\n");
     printf("Please input in format MM-dd-hh\n");
     scanf(" %d-%d-%d", &day.tm_mon, &day.tm_mday, &day.tm_hour);
 
@@ -145,7 +145,7 @@ void calculate_appliance_run(void)
 // print best vs now
     if (best_index) 
     {
-        printf("The best time to turn on %s is in %d hours. \nDoing so will save the environment %.2lf gram of carbon dioxide\n", app.name, best_index, (best_value - now) * app.wh);
+        printf("The best time to turn on %s is in %d hours. \nDoing so will save the environment %.2lf gram of carbon dioxide\n", app.name, best_index, (best_value - now) * app.wh / 1000);
     }
     else 
     {
