@@ -127,7 +127,7 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         double *pngdata = ConvertToPNG(&length, canvasref->image);
         WriteToFile(pngdata, length, "graph.png");
         DeleteImage(canvasref->image);
-        return 1;
+        return 0;
     }
     else
     {
@@ -137,7 +137,7 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
             fprintf(stderr, "%c", errmsg->string[i]);
         }
         fprintf(stderr, "\n");
-        return 0;
+        return 1;
     }
 }
 
