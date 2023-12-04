@@ -1,6 +1,7 @@
 #include "stdincludes.h"
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
+#include "graphUtils.h"
 #include "csvRead.h"
 #include "drawGraph.h"
 
@@ -16,15 +17,7 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
     series->ys = datapoints;
     series->ysLength = 24;
 
-
-    ScatterPlotSettings *settings = GetDefaultScatterPlotSettings();
-    settings->width = 1280;
-    settings->height = 720;
-    settings->autoBoundaries = true;
-    settings->autoPadding = true;
-    ScatterPlotSeries *s[] = {series};
-    settings->scatterPlotSeries = s;
-    settings->scatterPlotSeriesLength = 1;
+    ScatterPlotSettings *settings = default_scatter_settings(series);
 
     wchar_t type_strings[MAX_DATA_TYPE][50] = {
         {L"Low percent"},
@@ -32,15 +25,14 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         {L"CI direct"},
         {L"CI LCA"},
     };
-    
-    size_t type_strings_len[MAX_DATA_TYPE];
 
-    for (int i = 0; i < MAX_DATA_TYPE; i++)
-    {
-        type_strings_len[i] = wcslen(type_strings[i]);
-    }
+    tm *tmday = localtime(&day);
+    wchar_t titlestring[128];
+    wcstrftime(titlestring, 128, "%Y/%m/%d", tmday);
+    wcscat(titlestring, type_strings[type]);
+    settings->title = type_strings[type];
+    settings->titleLength = wcslen(titlestring);
     
-
     for (int i = 0; i < 24; i++)
     {
         hours[i] = i;
@@ -54,6 +46,7 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
     }
     if(i == 8760) return 1;
     
+    ;
 
     switch (type)
     {
@@ -64,9 +57,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
             datapoints[j] = data[j+i].low_percent;
         }
 
-        settings->title = type_strings[LOWPERCENT];
-        settings->titleLength = type_strings_len[LOWPERCENT];
-        
     } break;
 
     case RENEWPERCENT:
@@ -75,9 +65,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         {
             datapoints[j] = data[j+i].renew_percent;
         }   
-
-        settings->title = type_strings[RENEWPERCENT];
-        settings->titleLength = type_strings_len[RENEWPERCENT];
 
     } break;
 
@@ -88,9 +75,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
             datapoints[j] = data[j+i].ci_direct;
         }
 
-        settings->title = type_strings[CIDIRECT];
-        settings->titleLength = type_strings_len[CIDIRECT];
-
     } break;
 
     case CILCA:
@@ -99,9 +83,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         {
             datapoints[j] = data[j+i].ci_lca;
         }
-
-        settings->title = type_strings[CILCA];
-        settings->titleLength = type_strings_len[CILCA];
 
     } break;
 
@@ -114,9 +95,8 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
 
     RGBABitmapImageReference *canvasref = CreateRGBABitmapImageReference();
     StringReference *errmsg = CreateStringReference(msg, msglen);
-    successfull_print = DrawScatterPlot(canvasref, 1280, 720, hours, 24, datapoints, 24, errmsg);
     successfull_print = DrawScatterPlotFromSettings(canvasref, settings, errmsg);
-
+    
 
     if (successfull_print)
     {
@@ -124,6 +104,7 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         double *pngdata = ConvertToPNG(&length, canvasref->image);
         WriteToFile(pngdata, length, "graph.png");
         DeleteImage(canvasref->image);
+        free_scatter_settings(settings);
         return 0;
     }
     else
@@ -134,6 +115,7 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
             fprintf(stderr, "%c", errmsg->string[i]);
         }
         fprintf(stderr, "\n");
+        free_scatter_settings(settings);
         return 1;
     }
 }
@@ -151,12 +133,6 @@ GraphParams graph_input()
         {"Carbon Intensity Direct"},
         {"Carbon Intensity LCA"},
     };
-
-    tm day;
-    day.tm_hour = 0;
-    day.tm_min = 0;
-    day.tm_sec = 0;
-    day.tm_isdst = -1;
 
     GraphParams input;
     
@@ -200,10 +176,7 @@ GraphParams graph_input()
 
     printf("Which day do you wish to see the graph for?\n");
     printf("Please input in format yyyy-MM-dd\n");
-    scanf(" %d-%d-%d", &day.tm_year, &day.tm_mon, &day.tm_mday);
-    
-    day.tm_year -= 1900;
-    day.tm_mon -= 1;
+    tm day = time_input();
     
     input.day = mktime(&day);
     

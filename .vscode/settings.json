@@ -6,6 +6,7 @@
         "limits": "c",
         "*.tcc": "c",
         "typeinfo": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "stdincludes.h": "c"
     }
 }
