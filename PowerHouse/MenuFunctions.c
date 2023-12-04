@@ -56,8 +56,10 @@ void data_print_function(void)
     for (int i = 0; i < total_rows; i++)
     {
         Datapoint p = data[i];
-        printf("[%d]: %.1lf%%\n", i + 1, p.renew_percent);
+        printf("[%d]: CI_Direct [%.2lf] CI_LCA[%.2lf] \tlow_percent [%.1lf%%] renew_percent [%.1lf%%] \t%s", // note asctime appends a new line so time has to be last
+            i + 1, p.ci_direct, p.ci_lca, p.low_percent, p.renew_percent, asctime(gmtime(&p.datetime)));
     }
+    free(data);
 }
 
 
