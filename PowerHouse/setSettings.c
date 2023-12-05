@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "setSettings.h"
 
+#if 0
 int main(void)
 {
  setSettings();
 }
+#endif
 
 void setSettings(){
 
@@ -22,6 +25,12 @@ void setSettings(){
 
     // Saves user input to file
     FILE *settings = fopen("settings.txt", "w");
+    if (settings == NULL)
+    {
+        fprintf(stderr, "Failed to open or locate settings.txt!\n");
+        exit(EXIT_FAILURE);
+    }
+
     fprintf(settings, "startHour %d;\nendHour %d;\n", startHour, endHour);
 
     /*
@@ -34,5 +43,4 @@ void setSettings(){
 
     // Close file
     fclose(settings);
-
 }

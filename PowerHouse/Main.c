@@ -1,39 +1,106 @@
-#include <stdio.h>
+#include "stdincludes.h"
 
 #include "Main.h"
+#include "Menu.h"
+#include "appliance.h"
+#include "csvRead.h"
+#include "SettingHandler.h"
+
+#include "pbPlots/pbPlots.h"
+#include "pbPlots/supportLib.h"
 
 /* 
 Code start - keep clean
+
+Handles startup arguments
+Then starts the menu - where the real processing starts
 */
 
 int main(int argc, char *argv[])
 {
-	main_state = Start;
-
-	PrintStartArguments(argc, argv);
-
 	// Handle start arguments
-	SetLogfile();
-	SetDatasource();
-	if (logfile_set && datasource_set)
-		main_state = OK;
-	else
-		return StartError;
+	handle_exe_arguments(argc, argv);
 
-	menu(0);
+	if (!(settings_set && datasource_set))
+		return 1;
 
-	printf("Hello world!");
+	run_menu(menu_start);
+
 	return 0;
 }
 
-void PrintStartArguments(int argc, char* argv[])
-{
-	for (int i = 0; i < argc; i++)
-	{
-		printf("Argument [%d]: %s \n", i, argv);
-	}
+void run_menu (int startup_menu) {
+	MenuID = startup_menu;
+	exec_menu(MenuID);
 }
 
-void menu(int current_menu) {
-	return;
+void handle_exe_arguments(int argc, char* argv[]) 
+{
+	struct argument {
+		char* input;
+		char* help;
+	};
+
+	struct argument argument_types[] = {
+		{"h", "Help! list potential arguments"},
+		{"-d", "Sets data source file path as < -d datasource_path >"},
+		{"-s", "Sets setting file path as < -s setting_path >"}
+	};
+
+	// Process arguments
+	int has_next_argument;
+	for (int i = 0; i < argc; i++)
+	{
+#if _DEBUG
+		printf("Argument [%d]: %s \n", i, argv[i]);
+#endif
+		has_next_argument = !(i < argc);
+		if (strcmp(argv[i], argument_types[0].input) == 0) // help
+		{
+			for (int j = 0; j < 3; j++) {
+				printf("%s \t %s \n", argument_types[j].input, argument_types[j].help);
+			}
+
+			return;
+		}
+		else if (strcmp(argv[i], argument_types[1].input) == 0) // datasource
+		{
+#if _DEBUG
+			printf("Found argument \"-d\" and %s. \n", has_next_argument ? "has next argument" : "is missing next argument");
+#endif
+			if (!has_next_argument) {
+				printf("Missing data source path following %s argument.\n", argument_types[1].input);
+				return;
+			}
+				
+			datasource_set = 1;
+		}
+		else if (strcmp(argv[i], argument_types[2].input) == 0) // settings
+		{
+#if _DEBUG
+			printf("Found argument \"-s\" and %s. \n", has_next_argument ? "has next argument" : "is missing next argument");
+#endif
+			if (!has_next_argument) 
+			{
+				printf("Missing settings path following %s argument. \n", argument_types[2].input);
+				return;
+			}
+			
+			SetSettingPath(argv[i + 1]);
+			settings_set = 1;
+		}
+	}
+
+	// Handle missing arguments with default values
+	if (!settings_set)
+	{
+		SetSettingPath(NULL);
+		settings_set = 1;
+	}
+
+	if (!datasource_set)
+	{
+		// TODO
+		datasource_set = 1;
+	}
 }

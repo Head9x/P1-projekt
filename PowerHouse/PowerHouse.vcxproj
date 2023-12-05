@@ -19,10 +19,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="appliance.c" />
+    <ClCompile Include="csvRead.c" />
+    <ClCompile Include="drawGraph.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="Menu.c" />
+    <ClCompile Include="MenuFunctions.c" />
+    <ClCompile Include="pbPlots\pbPlots.c" />
+    <ClCompile Include="pbPlots\supportLib.c" />
+    <ClCompile Include="readSettings.c" />
+    <ClCompile Include="setSettings.c" />
+    <ClCompile Include="SettingHandler.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="appliance.h" />
+    <ClInclude Include="csvRead.h" />
+    <ClInclude Include="drawGraph.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="pbPlots\pbPlots.h" />
+    <ClInclude Include="pbPlots\supportLib.h" />
+    <ClInclude Include="setSettings.h" />
+    <ClInclude Include="SettingHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="settings.txt" />
+    <Text Include="TUI_Examples\TUI.txt" />
+    <Text Include="TUI_Examples\TUI_Appliances.txt" />
+    <Text Include="TUI_Examples\TUI_Time.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="datafiler\DK-DK2_2022_hourly.csv" />
+    <None Include="datafiler\log000" />
+    <None Include="datafiler\log001" />
+    <None Include="datafiler\log002" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -78,12 +108,12 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,14 +142,17 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CRT_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ShowProgress>NotSet</ShowProgress>
+      <AdditionalLibraryDirectories>pbPlots;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

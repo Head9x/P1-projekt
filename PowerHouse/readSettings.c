@@ -11,7 +11,7 @@ char userVar[USERVARMAX] = {0};
 char output[50];
 
 char *readSettings();
-
+#if 0
 int main()
 {
     printf("Input variable: ");
@@ -22,6 +22,7 @@ int main()
 
     return 0;
 }
+#endif
 
 char *readSettings()
 {
@@ -29,6 +30,12 @@ char *readSettings()
 
     // Read file
     FILE *settings = fopen("settings.txt", "r+");
+    if (settings == NULL)
+    {
+        fprintf(stderr, "Failed to open or locate settings.txt!\n");
+        exit(EXIT_FAILURE);
+    }
+    
 
     // For each line in file
     while (fgets(line, LINEMAX, settings))

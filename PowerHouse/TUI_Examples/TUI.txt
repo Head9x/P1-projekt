@@ -1,0 +1,25 @@
+Welcome to Powerhouse
+
+Powerhouse is a program that [description]
+
+------------------------------------------
+Today is: <date>
+Your energy produciton is at: <value>
+(You battery is at <%>)
+Energy cost is: <value>
+------------------------------------------
+You have the following options, press the corresponding key to continue
+
+a. - Define time
+b. - Set carbon % goal
+c. - Get 24 hr. status
+d. - Print optimal time
+e. - Appliances
+
+h. - Print help menu
+q. - Quit
+------------------------------------------
+s
+Press key to continue...
+> _	
+
