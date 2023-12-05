@@ -4,7 +4,7 @@
 
 int readBatt(int minutes) { 
     // open the file 
-    FILE *fp = fopen("testfile-multiline.json", "r"); 
+    FILE *fp = fopen("datafiler/log000", "r"); 
     if (fp == NULL) { 
         printf("Error: Unable to open the file.\n"); 
         return 1; 
@@ -48,14 +48,12 @@ int readBatt(int minutes) {
 
 int readSolar(int minutes) { 
     // open the file 
-    FILE *fp = fopen("testfile-multiline.json", "r"); 
+    FILE *fp = fopen("datafiler/log000", "r"); 
     if (fp == NULL) { 
         printf("Error: Unable to open the file.\n"); 
         return 1; 
     } 
-    char line[1024]; // Assuming lines are no longer than 100 characters
-
-    // Read and print each line of the file
+    char line[1024];
     while (fgets(line, sizeof(line), fp) != NULL) {
         cJSON *json = cJSON_Parse(line); 
         if (json == NULL) { 
@@ -92,5 +90,5 @@ int readSolar(int minutes) {
 
 
 int main(void) { 
-    readBatt(8);
+    readSolar(8);
 }
