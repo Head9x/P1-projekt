@@ -1,5 +1,6 @@
 typedef enum GraphTypes {
     SCATTERPLOT,
+    HISTOGRAM,
     MAX_GRAPH_TYPE,
     
 } GraphTypes;
@@ -16,9 +17,9 @@ typedef struct GraphParams
 {
     GraphTypes graph_type;
     DataType data_type;
-    time_t day;
+    tm day;
 } GraphParams;
 
 GraphParams graph_input();
 void graph_exec(GraphParams input);
-int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day);
+int graph_scatterplot_exec(DataType type, Datapoint *data, tm *day);

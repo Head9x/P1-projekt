@@ -5,7 +5,7 @@
 #include "csvRead.h"
 #include "drawGraph.h"
 
-int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
+int graph_scatterplot_exec(DataType type, Datapoint *data, tm *day)
 {
     double hours[24];
     double datapoints[24];
@@ -26,27 +26,38 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, time_t day)
         {L"CI LCA"},
     };
 
-    tm *tmday = localtime(&day);
-    wchar_t titlestring[128];
-    wcstrftime(titlestring, 128, "%Y/%m/%d", tmday);
+    wchar_t type_units[MAX_DATA_TYPE][50] = {
+        {L"%"},
+        {L"%"},
+        {L"gCO2eq"},
+        {L"gCO2eq"},
+    };
+        
+    wchar_t titlestring[256];
+    wcstrftime(titlestring, 256, "%Y/%m/%d ", day);
     wcscat(titlestring, type_strings[type]);
-    settings->title = type_strings[type];
+    settings->title = titlestring;
     settings->titleLength = wcslen(titlestring);
+    settings->xLabel = L"Hour";
+    settings->xLabelLength = wcslen(settings->xLabel);
+    settings->yLabel = type_units[type];
+    settings->yLabelLength = wcslen(settings->yLabel);
     
     for (int i = 0; i < 24; i++)
     {
         hours[i] = i;
     }
 
+    time_t sel_datetime = mktime(day);
     int i = 0;
-    while (data[i].datetime != day) 
+    while (data[i].datetime != sel_datetime) 
     {
         if(i == 8760) break;
         i++;
     }
     if(i == 8760) return 1;
     
-    ;
+    
 
     switch (type)
     {
@@ -125,6 +136,7 @@ GraphParams graph_input()
 
     char GraphType_strings[MAX_GRAPH_TYPE][50] = {
         {"Scatterplot"},
+        {"Histogram"},
     };
 
     char DataType_strings[MAX_DATA_TYPE][50] = {
@@ -134,7 +146,7 @@ GraphParams graph_input()
         {"Carbon Intensity LCA"},
     };
 
-    GraphParams input;
+    GraphParams input = {0};
     
     printf("Choose a which type of graph you wish to be printed:\n\n");
     
@@ -175,10 +187,8 @@ GraphParams graph_input()
     printf("%s\n", DataType_strings[input.data_type]); 
 
     printf("Which day do you wish to see the graph for?\n");
-    printf("Please input in format yyyy-MM-dd\n");
-    tm day = time_input();
-    
-    input.day = mktime(&day);
+    printf("Please input in format yyyy-MM-dd\n");    
+    input.day = time_input();
     
     return input;
 }
@@ -190,7 +200,7 @@ void graph_exec(GraphParams input)
     switch (input.graph_type)
     {
     case SCATTERPLOT:
-        graph_scatterplot_exec(input.data_type, data, input.day);
+        graph_scatterplot_exec(input.data_type, data, &input.day);
         system("graph.png");
         break;
     
