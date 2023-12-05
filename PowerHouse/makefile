@@ -7,35 +7,35 @@ FLAGS    = -g -c -Wall
 LFLAGS   = -lm
 
 all: $(OBJS)
-        $(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
+	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
 
 Main.o: Main.c
-        $(CC) $(FLAGS) Main.c 
+	$(CC) $(FLAGS) Main.c 
 
 Menu.o: Menu.c
-        $(CC) $(FLAGS) Menu.c 
+	$(CC) $(FLAGS) Menu.c 
 
 MenuFunctions.o: MenuFunctions.c
-        $(CC) $(FLAGS) MenuFunctions.c 
+	$(CC) $(FLAGS) MenuFunctions.c 
 
 SettingHandler.o: SettingHandler.c
-        $(CC) $(FLAGS) SettingHandler.c 
+	$(CC) $(FLAGS) SettingHandler.c 
 
 drawGraph.o: drawGraph.c
-        $(CC) $(FLAGS) drawGraph.c 
+	$(CC) $(FLAGS) drawGraph.c 
 
 csvRead.o: csvRead.c
-        $(CC) $(FLAGS) csvRead.c 
+	$(CC) $(FLAGS) csvRead.c 
 
 appliance.o: appliance.c
-        $(CC) $(FLAGS) appliance.c
+	$(CC) $(FLAGS) appliance.c
 
 pbPlots/pbPlots.o: pbPlots/pbPlots.c
-        $(CC) $(FLAGS) pbPlots/pbPlots.c -o pbPlots/pbPlots.o 
+	$(CC) $(FLAGS) pbPlots/pbPlots.c -o pbPlots/pbPlots.o 
 
 pbPlots/supportLib.o: pbPlots/supportLib.c
-        $(CC) $(FLAGS) pbPlots/supportLib.c -o pbPlots/supportLib.o 
+	$(CC) $(FLAGS) pbPlots/supportLib.c -o pbPlots/supportLib.o 
 
 
 clean:
-        rm -f $(OBJS) $(OUT)
+	rm -f $(OBJS) $(OUT)
