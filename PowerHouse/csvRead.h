@@ -13,4 +13,11 @@ struct Datapoint
 
 typedef struct Datapoint Datapoint;
 // Read the .csv-file. Returns a pointer to an array of the type Datapoint.
-Datapoint* readCSV(char *filename, int *rows, bool has_header);
+Datapoint* readCSV(FILE* fh, int *rows, const bool has_header);
+
+// Sets the file path to the csv data file and reads the file for further processing
+void SetCSVPath(const char* filename, const bool has_header);
+
+// Retrieves the data of the csv data file
+Datapoint* GetCSVData(int* rows_out);
+

@@ -219,8 +219,8 @@ GraphParams graph_input(void)
 void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
 {
     int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
-   
+    Datapoint* data = GetCSVData(&total_rows);
+    
     switch (graph_type)
     {
     case SCATTERPLOT:
@@ -251,6 +251,4 @@ void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
     default:
         break;
     }
-
-    free(data);
 }
