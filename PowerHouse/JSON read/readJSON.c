@@ -2,14 +2,14 @@
 #include "cJSON.c"
 #include "cJSON.h"
 
-int readBatt(int minutes) { 
+int readBatt() { 
     // open the file 
     FILE *fp = fopen("datafiler/log000", "r"); 
     if (fp == NULL) { 
         printf("Error: Unable to open the file.\n"); 
         return 1; 
     } 
-    char line[1024]; // Assuming lines are no longer than 100 characters
+    char line[1024];
 
     // Read and print each line of the file
     while (fgets(line, sizeof(line), fp) != NULL) {
@@ -40,13 +40,13 @@ int readBatt(int minutes) {
     
         // delete the JSON object 
         cJSON_Delete(json); 
-        }
+    }
 
-        fclose(fp); // Don't forget to close the file when done
+    fclose(fp); // Don't forget to close the file when done
     return 0;
 }
 
-int readSolar(int minutes) { 
+int readSolar() { 
     // open the file 
     FILE *fp = fopen("datafiler/log000", "r"); 
     if (fp == NULL) { 
@@ -90,5 +90,5 @@ int readSolar(int minutes) {
 
 
 int main(void) { 
-    readSolar(8);
+    readSolar();
 }
