@@ -18,16 +18,37 @@
     <ClCompile Include="Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menus.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="setSettings.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="readSettings.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CSV read\csvRead.c">
+    <ClCompile Include="appliance.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="csvRead.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="drawGraph.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuFunctions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pbPlots\pbPlots.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pbPlots\supportLib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingHandler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graphUtils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +59,28 @@
     <ClInclude Include="appliance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="appliances.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="setSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CSV read\csvRead.h">
+    <ClInclude Include="csvRead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="drawGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pbPlots\pbPlots.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pbPlots\supportLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graphUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

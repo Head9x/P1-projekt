@@ -1,6 +1,6 @@
-OBJS    = Main.o Menu.o MenuFunctions.o SettingHandler.o drawGraph.o csvRead.o appliance.o pbPlots/pbPlots.o pbPlots/supportLib.o
-SOURCE  = Main.c Menu.c MenuFunctions.c SettingHandler.c drawGraph.c csvRead.c appliance.c pbPlots/pbPlots.c pbPlots/supportLib.c
-HEADER  = Main.h Menu.h SettingHandler.h stdincludes.h drawGraph.h csvRead.h appliance.h pbPlots/pbPlots.h pbPlots/supportLib.h
+OBJS    = Main.o Menu.o MenuFunctions.o SettingHandler.o drawGraph.o csvRead.o appliance.o pbPlots/pbPlots.o pbPlots/supportLib.o graphUtils.o
+SOURCE  = Main.c Menu.c MenuFunctions.c SettingHandler.c drawGraph.c csvRead.c appliance.c pbPlots/pbPlots.c pbPlots/supportLib.c graphUtils.c
+HEADER  = Main.h Menu.h SettingHandler.h stdincludes.h drawGraph.h csvRead.h appliance.h pbPlots/pbPlots.h pbPlots/supportLib.h graphUtils.h
 OUT     = a.out
 CC       = gcc
 FLAGS    = -g -c -Wall
@@ -29,6 +29,9 @@ csvRead.o: csvRead.c
 
 appliance.o: appliance.c
 	$(CC) $(FLAGS) appliance.c
+
+graphUtils.o: graphUtils.c
+	$(CC) $(FLAGS) graphUtils.c
 
 pbPlots/pbPlots.o: pbPlots/pbPlots.c
 	$(CC) $(FLAGS) pbPlots/pbPlots.c -o pbPlots/pbPlots.o 

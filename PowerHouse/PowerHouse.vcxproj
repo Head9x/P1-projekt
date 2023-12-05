@@ -22,6 +22,7 @@
     <ClCompile Include="appliance.c" />
     <ClCompile Include="csvRead.c" />
     <ClCompile Include="drawGraph.c" />
+    <ClCompile Include="graphUtils.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
     <ClCompile Include="MenuFunctions.c" />
@@ -35,6 +36,7 @@
     <ClInclude Include="appliance.h" />
     <ClInclude Include="csvRead.h" />
     <ClInclude Include="drawGraph.h" />
+    <ClInclude Include="graphUtils.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="pbPlots\pbPlots.h" />
