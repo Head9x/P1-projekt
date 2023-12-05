@@ -20,7 +20,7 @@ void appliance_print_function(void)
         printf("runTime %lf \n\n", app.runTime);
     }
 
-    printf("------------------------------------------\n");
+    printDivider();
     printf("Press any key + ENTER to continue\n\n");
     standardScan(); // wait for user to proceed
 }
@@ -98,7 +98,8 @@ void calculate_appliance_run(void)
     day.tm_sec = 0;
     day.tm_isdst = -1;
     printf("Which start time do you wish to calculate for?\n");
-    printf("Please input in format MM-dd-hh\n");
+    printf("Please input in format: MM-dd-hh\n");
+    printf("Date: ");
     scanf(" %d-%d-%d", &day.tm_mon, &day.tm_mday, &day.tm_hour);
 
     day.tm_year -= 1900;
@@ -142,6 +143,7 @@ void calculate_appliance_run(void)
     }
 
 // print best vs now
+    printDivider();
     if (best_index) 
     {
         printf("The best time to turn on %s is in %d hours. \nDoing so will save the environment %.2lf gram of carbon dioxide\n", app.name, best_index, (best_value - now) * app.wh / 1000);
@@ -150,4 +152,8 @@ void calculate_appliance_run(void)
     {
         printf("The best time on %s is now\n", app.name);
     }
+    printDivider();
+    printf("Press any key + ENTER to continue\n\n");
+    standardScan(); // wait for user to proceed
+    clear_terminal();
 }

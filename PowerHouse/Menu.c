@@ -88,9 +88,9 @@ int print_menu(int MenuID)
 
 //clear_terminal();
     printf("Welcome to the %s\n", current_menu.name);
-    printf("------------------------------------------\n");
+    printDivider();
     printf("%s\n", current_menu.description);
-    printf("------------------------------------------\n");
+    printDivider();
     printf("You have the following options, press the corresponding key to continue\n\n");
 
     for (int i = 0; i < current_menu.subMenuCount; i++)
@@ -100,6 +100,7 @@ int print_menu(int MenuID)
     printf("\n");
     printf("s. - Start menu\n");
     printf("q. - Quit\n");
+    printDivider();
 
     return 1;
 }
@@ -158,4 +159,8 @@ char standardScan()
     scanf(" %c", &scan);
 
     return scan;
+}
+
+void printDivider() {
+    printf("------------------------------------------\n");
 }

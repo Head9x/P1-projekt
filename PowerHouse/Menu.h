@@ -31,6 +31,7 @@ void clear_terminal();
 int print_menu(int);
 int exec_menu(int);
 char standardScan();
+void printDivider();
 
 void appliance_print_function(void);
 void appliance_upsert_function(void);
