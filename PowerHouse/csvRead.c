@@ -3,16 +3,33 @@
 
 #define HOURS_PER_YEAR 8760
 
-Datapoint* readCSV(char *filename, int *rows, bool has_header)
+static int row_count;
+static Datapoint* data;
+
+void SetCSVPath(const char* filename, const bool has_header)
 {
-    // "C:/Users/Chrin/P1/P1-Projekt/PowerHouse/datafiler/DK-DK2_2022_hourly.csv"
-    FILE *fh = fopen(filename, "r");
-    if(fh == NULL) 
+    FILE* fh = fopen(filename == NULL ? "datafiler/DK-DK2_2022_hourly.csv" : filename, "r");
+    if (fh == NULL)
     {
         fprintf(stderr, "Failed to locate or open CSV-file!\n");
         exit(EXIT_FAILURE);
     }
+    if (data != NULL) free(data);
+    data = readCSV(fh, &row_count, has_header);
+    fclose(fh);
+}
+Datapoint* GetCSVData(int* rows_out) 
+{
+    if (data == NULL || row_count == 0) {
+        SetCSVPath(NULL, true);
+    }
 
+    *rows_out = row_count;
+    return data;
+}
+
+static Datapoint* readCSV(FILE* fh, int * rows_out, bool has_header)
+{
     // Uninitialized buffer to input the rows to.
     char buffer[1024];
     int row = 0;
@@ -20,23 +37,24 @@ Datapoint* readCSV(char *filename, int *rows, bool has_header)
     // Allocation of the Datapoint-array, with the expected amounts of rows as the number of elements.
     Datapoint *data = malloc(HOURS_PER_YEAR*sizeof(Datapoint));
 
+    if (has_header)
+    {
+        fgets(buffer, 1024, fh);
+        strtok(buffer, ",");
+        while (strtok(NULL, ",")) {; } // fast through first line 
+    }
+
     // While-loop that goes through each line of the .csv-file and writes it to buffer[].
-    while (fgets(buffer, 1024, fh) && (has_header) ? row < HOURS_PER_YEAR+1 : row < HOURS_PER_YEAR)
+    while (fgets(buffer, 1024, fh) && row < HOURS_PER_YEAR)
     {
         column = 0;
         
         // Tokenizes buffer with ',' as the delimiter.
-        char *tok = strtok(buffer, ",");
-        
-        if (has_header && row == 0) {
-            row++;
-            continue;
-        }
+        char *tok = strtok(buffer, ",");      
         
         // Keep going as long as a new token is found.
         while (tok)
-        {
-            
+        {           
             switch (column) {
                 case 0:
                 {
@@ -61,44 +79,29 @@ Datapoint* readCSV(char *filename, int *rows, bool has_header)
                     datetime.tm_isdst = -1;
 
                     // Convert the tm struct to seconds since epoch.
-                    if (has_header)
-                        data[row-1].datetime = mktime(&datetime);
-                    else   
-                        data[row].datetime = mktime(&datetime);
+                    data[row].datetime = mktime(&datetime);
                     break;
                 }
 
                 case  4:
                 {
-                    if (has_header)
-                        data[row-1].ci_direct = strtod(tok, NULL);                
-                    else
-                        data[row].ci_direct = strtod(tok, NULL);
+                    data[row].ci_direct = strtod(tok, NULL);
                     // If the first row does not contain data use this instead:
                     break;
                 }
                 case 5:
                 {
-                    if (has_header)
-                        data[row-1].ci_lca = strtod(tok, NULL);
-                    else
-                        data[row].ci_lca = strtod(tok, NULL);
+                    data[row].ci_lca = strtod(tok, NULL);
                     break;
                 }
                 case 6:
                 {
-                    if (has_header)
-                        data[row-1].low_percent = strtod(tok, NULL);
-                    else
-                        data[row].low_percent = strtod(tok, NULL);
+                    data[row].low_percent = strtod(tok, NULL);
                     break;
                 }
                 case 7:
                 {
-                    if (has_header)
-                        data[row-1].renew_percent = strtod(tok, NULL);
-                    else
-                        data[row].renew_percent = strtod(tok, NULL);
+                    data[row].renew_percent = strtod(tok, NULL);
                     break;
                 }
             }
@@ -112,14 +115,8 @@ Datapoint* readCSV(char *filename, int *rows, bool has_header)
         row++;
     }
 
-    fclose(fh);
-    if (has_header)
-    {
-        *rows = row-1;
-    } 
-    else
-    {
-        *rows = row;
-    }
+    *rows_out = row;
+    
     return data;
 }
+
