@@ -1,11 +1,27 @@
 #include "stdincludes.h"
 #include "pbPlots/pbPlots.h"
 #include "pbPlots/supportLib.h"
-#include "graphUtils.h"
 #include "csvRead.h"
 #include "drawGraph.h"
+#include "graphUtils.h"
+#include "Menu.h"
 
-int graph_scatterplot_exec(DataType type, Datapoint *data, tm *day)
+static wchar_t type_strings[MAX_DATA_TYPE][50] = {
+        {L"Low Carbon Percent"},
+        {L"Renewable Percent"},
+        {L"CI direct"},
+        {L"CI LCA"},
+};
+
+static wchar_t type_units[MAX_DATA_TYPE][50] = {
+        {L"%"},
+        {L"%"},
+        {L"gCO2eq/kWh"},
+        {L"gCO2eq/kWh"},
+};
+
+
+int graph_scatterplot_exec(DataType type, Datapoint *data, struct tm *day)
 {
     double hours[24];
     double datapoints[24];
@@ -19,20 +35,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, tm *day)
 
     ScatterPlotSettings *settings = default_scatter_settings(series);
 
-    wchar_t type_strings[MAX_DATA_TYPE][50] = {
-        {L"Low percent"},
-        {L"Renewable percent"},
-        {L"CI direct"},
-        {L"CI LCA"},
-    };
-
-    wchar_t type_units[MAX_DATA_TYPE][50] = {
-        {L"%"},
-        {L"%"},
-        {L"gCO2eq"},
-        {L"gCO2eq"},
-    };
-        
     wchar_t titlestring[256];
     wcstrftime(titlestring, 256, "%Y/%m/%d ", day);
     wcscat(titlestring, type_strings[type]);
@@ -47,59 +49,8 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, tm *day)
     {
         hours[i] = i;
     }
-
-    time_t sel_datetime = mktime(day);
-    int i = 0;
-    while (data[i].datetime != sel_datetime) 
-    {
-        if(i == 8760) break;
-        i++;
-    }
-    if(i == 8760) return 1;
     
-    
-
-    switch (type)
-    {
-    case LOWPERCENT:
-    {
-        for (int j = 0; j < 24; j++)
-        {
-            datapoints[j] = data[j+i].low_percent;
-        }
-
-    } break;
-
-    case RENEWPERCENT:
-    {
-        for (int j = 0; j < 24; j++)
-        {
-            datapoints[j] = data[j+i].renew_percent;
-        }   
-
-    } break;
-
-    case CIDIRECT:
-    {
-        for (int j = 0; j < 24; j++)
-        {
-            datapoints[j] = data[j+i].ci_direct;
-        }
-
-    } break;
-
-    case CILCA:
-    {
-        for (int j = 0; j < 24; j++)
-        {
-            datapoints[j] = data[j+i].ci_lca;
-        }
-
-    } break;
-
-    default:
-        return 1;
-    }
+    fill_data(type, datapoints, 24, data, day);
 
     wchar_t msg[] = L"Error printing graph!\n";
     size_t msglen = wcslen(msg);
@@ -108,7 +59,6 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, tm *day)
     StringReference *errmsg = CreateStringReference(msg, msglen);
     successfull_print = DrawScatterPlotFromSettings(canvasref, settings, errmsg);
     
-
     if (successfull_print)
     {
         size_t length;
@@ -131,16 +81,89 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, tm *day)
     }
 }
 
-GraphParams graph_input()
+int graph_comparison_scatter_exec(DataType type1, DataType type2, Datapoint *data, tm *day)
 {
+    double common_xs[24];
+    double ys_1[24];
+    double ys_2[24];
+    
+    for (int i = 0; i < 24; i++)
+    {
+        common_xs[i] = i;
+    }
 
+    fill_data(type1, ys_1, 24, data, day);
+    fill_data(type2, ys_2, 24, data, day);
+
+    RGBABitmapImageReference *canvasref1 = CreateRGBABitmapImageReference();
+    RGBABitmapImageReference *canvasref2 = CreateRGBABitmapImageReference();
+
+    ScatterPlotSeries *series1 = GetDefaultScatterPlotSeriesSettings();
+    series1->xs = common_xs;
+    series1->xsLength = 24;
+    series1->ys = ys_1;
+    series1->ysLength = 24;
+
+    ScatterPlotSeries *series2 = GetDefaultScatterPlotSeriesSettings();
+    series2->xs = common_xs;
+    series2->xsLength = 24;
+    series2->ys = ys_2;
+    series2->ysLength = 24;
+
+    wchar_t msg[] = L"Error!";
+    StringReference *errmsg = CreateStringReference(msg, wcslen(msg));
+
+    RGBABitmapImage *combined = CreateImage(640*2, 720, GetWhite());
+    RGBABitmapImage *image1, *image2;
+
+    ScatterPlotSettings *settings1 = GetDefaultScatterPlotSettings();
+    settings1->title = type_strings[type1];
+    settings1->titleLength = wcslen(settings1->title);
+    settings1->width = 640;
+    settings1->height = 720;
+    ScatterPlotSeries **s1 = malloc(sizeof(ScatterPlotSeries));
+    s1[0] = series1;
+    settings1->scatterPlotSeries = s1;
+    settings1->scatterPlotSeriesLength = 1;
+
+    ScatterPlotSettings *settings2 = GetDefaultScatterPlotSettings();
+    settings2->title = type_strings[type2];
+    settings2->titleLength = wcslen(settings2->title);
+    settings2->width = 640;
+    settings2->height = 720;
+    ScatterPlotSeries **s2 = malloc(sizeof(ScatterPlotSeries));
+    s2[0] = series2;
+    settings2->scatterPlotSeries = s2;
+    settings2->scatterPlotSeriesLength = 1;
+
+    DrawScatterPlotFromSettings(canvasref1, settings1, errmsg);
+    DrawScatterPlotFromSettings(canvasref2, settings2, errmsg);
+
+    image1 = canvasref1->image;
+    image2 = canvasref2->image;
+
+    DrawImageOnImage(combined, image1, 0, 0);
+    DrawImageOnImage(combined, image2, 640, 0);
+    
+    size_t length;
+    double *pngdata = ConvertToPNG(&length, combined);
+    WriteToFile(pngdata, length, "graph.png");
+    DeleteImage(combined);
+    free_scatter_settings(settings1);
+    free_scatter_settings(settings2);
+    return 0;
+}
+
+GraphParams graph_input(void)
+{
     char GraphType_strings[MAX_GRAPH_TYPE][50] = {
         {"Scatterplot"},
         {"Histogram"},
+        {"Comparison"},
     };
 
     char DataType_strings[MAX_DATA_TYPE][50] = {
-        {"Low Percent"},
+        {"Low Carbon Percent"},
         {"Renewable Percent"},
         {"Carbon Intensity Direct"},
         {"Carbon Intensity LCA"},
@@ -193,14 +216,35 @@ GraphParams graph_input()
     return input;
 }
 
-void graph_exec(GraphParams input)
+void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
 {
     int total_rows;
     Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
-    switch (input.graph_type)
+   
+    switch (graph_type)
     {
     case SCATTERPLOT:
-        graph_scatterplot_exec(input.data_type, data, &input.day);
+        graph_scatterplot_exec(data_type, data, &day);
+        system("graph.png");
+        break;
+        
+    case HISTOGRAM:
+        break;
+    
+    case COMPARISON:
+        //clear_terminal();
+        printf("Which type do you want to compare to?\n");
+        for (size_t i = 0; i < MAX_DATA_TYPE; i++)
+        {
+            wprintf(L"%d. %s\n", i+1, type_strings[i]);
+        }
+        
+        DataType second_type;
+        scanf(" %d", &second_type);
+        second_type -= 1;
+        wprintf(L"You have chosen: %s\n", type_strings[second_type]);
+
+        graph_comparison_scatter_exec(data_type, second_type, data, &day);
         system("graph.png");
         break;
     
