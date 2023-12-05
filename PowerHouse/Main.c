@@ -54,7 +54,7 @@ void handle_exe_arguments(int argc, char* argv[])
 #if _DEBUG
 		printf("Argument [%d]: %s \n", i, argv[i]);
 #endif
-		has_next_argument = !(i < argc);
+		has_next_argument = !(i+1 >= argc);
 		if (strcmp(argv[i], argument_types[0].input) == 0) // help
 		{
 			for (int j = 0; j < 3; j++) {
