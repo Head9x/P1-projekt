@@ -4,8 +4,9 @@
 #include "SettingHandler.h"
 
 #define MAX_NUMBER_OF_SETTINGS 250
+#define LINE_LENGTH 1024
 
-static char* _path = "settings.txt";
+static char _path[LINE_LENGTH];
 static int number_of_settings = 0;
 static setting settings[MAX_NUMBER_OF_SETTINGS];
 
@@ -13,7 +14,7 @@ static setting settings[MAX_NUMBER_OF_SETTINGS];
 void SetSettingPath(const char* path)
 {
     number_of_settings = 0;
-	_path = path == NULL ? "settings.txt" : path;
+    strcpy(_path, path == NULL ? "settings.txt" :path);
 
     FILE* file = fopen(_path, "r");
     if (file == NULL)
@@ -24,11 +25,10 @@ void SetSettingPath(const char* path)
 
     char delimiter1[] = " ";
     char delimiter2[] = "\n";
-    char line[1024];
+    char line[LINE_LENGTH];
     char* token = NULL;
-    size_t len = 1024;
 
-    while (fgets(line, len, file) != NULL)
+    while (fgets(line, LINE_LENGTH, file) != NULL)
     {
         if (number_of_settings >= MAX_NUMBER_OF_SETTINGS) break;
 
@@ -111,12 +111,9 @@ int HasSetting(const char* key)
 // Get the setting from setting set
 const setting GetSetting(const char* key)
 {
-    auto setting _setting = { NULL, NULL };
-
     int setting_index = SettingFind(key);
     if (setting_index <= -1)
-         return _setting; // return null setting
-
+         exit(EXIT_FAILURE);
     return settings[setting_index];
 }
 
