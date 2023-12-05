@@ -213,7 +213,7 @@ GraphParams graph_input()
 void graph_exec(GraphParams input)
 {
     int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
+    Datapoint* data = GetCSVData(&total_rows);
     switch (input.graph_type)
     {
     case SCATTERPLOT:
@@ -224,6 +224,4 @@ void graph_exec(GraphParams input)
     default:
         break;
     }
-
-    free(data);
 }
