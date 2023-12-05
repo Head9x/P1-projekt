@@ -43,7 +43,7 @@ void handle_exe_arguments(int argc, char* argv[])
 
 	struct argument argument_types[] = {
 		{"h", "Help! list potential arguments"},
-		{"-d", "Sets data source file path as < -d datasource_path >"},
+		{"-d", "Sets data source file path as < -d datasource_path > or < -d datasource_path --h > if the csv file has header row"},
 		{"-s", "Sets setting file path as < -s setting_path >"}
 	};
 
@@ -54,7 +54,7 @@ void handle_exe_arguments(int argc, char* argv[])
 #if _DEBUG
 		printf("Argument [%d]: %s \n", i, argv[i]);
 #endif
-		has_next_argument = !(i < argc);
+		has_next_argument = !(i+1 >= argc);
 		if (strcmp(argv[i], argument_types[0].input) == 0) // help
 		{
 			for (int j = 0; j < 3; j++) {
@@ -72,7 +72,8 @@ void handle_exe_arguments(int argc, char* argv[])
 				printf("Missing data source path following %s argument.\n", argument_types[1].input);
 				return;
 			}
-				
+			
+			SetCSVPath(argv[i + 1], (i + 2 < argc) && strcmp(argv[i + 2], "--h"));
 			datasource_set = 1;
 		}
 		else if (strcmp(argv[i], argument_types[2].input) == 0) // settings
@@ -100,7 +101,7 @@ void handle_exe_arguments(int argc, char* argv[])
 
 	if (!datasource_set)
 	{
-		// TODO
+		SetCSVPath(NULL, true);
 		datasource_set = 1;
 	}
 }

@@ -53,14 +53,13 @@ void appliance_remove_function(void)
 void data_print_function(void)
 {
     int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
+    Datapoint* data = GetCSVData(&total_rows);
     for (int i = 0; i < total_rows; i++)
     {
         Datapoint p = data[i];
         printf("[%d]: CI_Direct [%.2lf] CI_LCA[%.2lf] \tlow_percent [%.1lf%%] renew_percent [%.1lf%%] \t%s", // note asctime appends a new line so time has to be last
             i + 1, p.ci_direct, p.ci_lca, p.low_percent, p.renew_percent, asctime(gmtime(&p.datetime)));
     }
-    free(data);
 }
 
 
@@ -111,7 +110,7 @@ void calculate_appliance_run(void)
 
 //run 
     int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
+    Datapoint* data = GetCSVData(&total_rows);
     Datapoint* start_point;
     for(start_point = data; start_point < data+total_rows; start_point++)
     {
@@ -151,6 +150,4 @@ void calculate_appliance_run(void)
     {
         printf("The best time on %s is now\n", app.name);
     }
-
-    free(data);
 }
