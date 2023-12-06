@@ -28,7 +28,7 @@ Datapoint* GetCSVData(int* rows_out)
     return data;
 }
 
-static Datapoint* readCSV(FILE* fh, int * rows_out, bool has_header)
+Datapoint* readCSV(FILE* fh, int * rows_out, bool has_header)
 {
     // Uninitialized buffer to input the rows to.
     char buffer[1024];
