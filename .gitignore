@@ -67,3 +67,4 @@ PowerHouse/menus
 /PowerHouse/TestGraph.png
 
 *.png
+.vscode/c_cpp_properties.json

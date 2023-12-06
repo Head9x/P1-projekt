@@ -66,8 +66,8 @@ void data_print_function(void)
 void graph_draw(void)
 {
     GraphParams input = graph_input();
-
-    graph_exec(input);
+    
+    graph_exec(input.graph_type, input.data_type, input.day);
 }
 
 void calculate_appliance_run(void) 
@@ -152,8 +152,10 @@ void calculate_appliance_run(void)
     {
         printf("The best time on %s is now\n", app.name);
     }
+
     printDivider();
     printf("Press any key + ENTER to continue\n\n");
     standardScan(); // wait for user to proceed
     clear_terminal();
 }
+

@@ -83,7 +83,7 @@ static Datapoint* readCSV(FILE* fh, int * rows_out, bool has_header)
                     break;
                 }
 
-                case  4:
+                case 4:
                 {
                     data[row].ci_direct = strtod(tok, NULL);
                     // If the first row does not contain data use this instead:
