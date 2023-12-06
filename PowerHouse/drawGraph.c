@@ -80,6 +80,57 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, struct tm *day)
         return 1;
     }
 }
+int graph_barplot_exec(DataType type, Datapoint *data, struct tm *day)
+{
+    double datapoints[24];
+    bool successfull_print;
+    
+    BarPlotSeries* series = GetDefaultBarPlotSeriesSettings();
+    series->ys = datapoints;
+    series->ysLength = 24;
+    BarPlotSettings* settings = default_bar_settings(series);
+    
+    wchar_t titlestring[256];
+    wcstrftime(titlestring, 256, "%Y/%m/%d ", day);
+    wcscat(titlestring, type_strings[type]);
+    settings->title = titlestring;
+    settings->titleLength = wcslen(titlestring);
+    settings->yLabel = type_units[type];
+    settings->yLabelLength = wcslen(settings->yLabel);
+    
+    
+    fill_data(type, datapoints, 24, data, day);
+    
+    wchar_t msg[] = L"Error printing graph!\n";
+    size_t msglen = wcslen(msg);
+    
+    RGBABitmapImageReference* canvasref = CreateRGBABitmapImageReference();
+    StringReference *errmsg = CreateStringReference(msg, msglen);
+    successfull_print = DrawBarPlotFromSettings(canvasref, settings, errmsg);
+    
+    if (successfull_print)
+    {
+        size_t length;
+        double* pngdata = ConvertToPNG(&length, canvasref->image);
+        WriteToFile(pngdata, length, "graph.png");
+        DeleteImage(canvasref->image);
+        free_bar_settings(settings);
+        return 0;
+    }
+    else
+    {
+        fprintf(stderr, "Error: ");
+        for (int i = 0; i < errmsg->stringLength; i++)
+        {
+            fprintf(stderr, "%c", errmsg->string[i]);
+        }
+        fprintf(stderr, "\n");
+        free_bar_settings(settings);
+        return 1;
+    }
+
+
+}
 
 int graph_comparison_scatter_exec(DataType type1, DataType type2, Datapoint *data, tm *day)
 {
@@ -229,6 +280,8 @@ void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
         break;
         
     case HISTOGRAM:
+        graph_barplot_exec(data_type, data, &day);
+        system("graph.png");
         break;
     
     case COMPARISON:
