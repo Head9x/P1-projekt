@@ -283,7 +283,7 @@ void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
         graph_barplot_exec(data_type, data, &day);
         system("graph.png");
         break;
-
+    
     case COMPARISON:
         //clear_terminal();
         printf("Which type do you want to compare to?\n");
