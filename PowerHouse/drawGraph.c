@@ -44,12 +44,12 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, struct tm *day)
     settings->xLabelLength = wcslen(settings->xLabel);
     settings->yLabel = type_units[type];
     settings->yLabelLength = wcslen(settings->yLabel);
-    
+
     for (int i = 0; i < 24; i++)
     {
         hours[i] = i;
     }
-    
+
     fill_data(type, datapoints, 24, data, day);
 
     wchar_t msg[] = L"Error printing graph!\n";
@@ -58,7 +58,7 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, struct tm *day)
     RGBABitmapImageReference *canvasref = CreateRGBABitmapImageReference();
     StringReference *errmsg = CreateStringReference(msg, msglen);
     successfull_print = DrawScatterPlotFromSettings(canvasref, settings, errmsg);
-    
+
     if (successfull_print)
     {
         size_t length;
@@ -80,13 +80,64 @@ int graph_scatterplot_exec(DataType type, Datapoint *data, struct tm *day)
         return 1;
     }
 }
+int graph_barplot_exec(DataType type, Datapoint *data, struct tm *day)
+{
+    double datapoints[24];
+    bool successfull_print;
+
+    BarPlotSeries* series = GetDefaultBarPlotSeriesSettings();
+    series->ys = datapoints;
+    series->ysLength = 24;
+    BarPlotSettings* settings = default_bar_settings(series);
+
+    wchar_t titlestring[256];
+    wcstrftime(titlestring, 256, "%Y/%m/%d ", day);
+    wcscat(titlestring, type_strings[type]);
+    settings->title = titlestring;
+    settings->titleLength = wcslen(titlestring);
+    settings->yLabel = type_units[type];
+    settings->yLabelLength = wcslen(settings->yLabel);
+
+
+    fill_data(type, datapoints, 24, data, day);
+
+    wchar_t msg[] = L"Error printing graph!\n";
+    size_t msglen = wcslen(msg);
+
+    RGBABitmapImageReference* canvasref = CreateRGBABitmapImageReference();
+    StringReference *errmsg = CreateStringReference(msg, msglen);
+    successfull_print = DrawBarPlotFromSettings(canvasref, settings, errmsg);
+
+    if (successfull_print)
+    {
+        size_t length;
+        double* pngdata = ConvertToPNG(&length, canvasref->image);
+        WriteToFile(pngdata, length, "graph.png");
+        DeleteImage(canvasref->image);
+        free_bar_settings(settings);
+        return 0;
+    }
+    else
+    {
+        fprintf(stderr, "Error: ");
+        for (int i = 0; i < errmsg->stringLength; i++)
+        {
+            fprintf(stderr, "%c", errmsg->string[i]);
+        }
+        fprintf(stderr, "\n");
+        free_bar_settings(settings);
+        return 1;
+    }
+
+
+}
 
 int graph_comparison_scatter_exec(DataType type1, DataType type2, Datapoint *data, tm *day)
 {
     double common_xs[24];
     double ys_1[24];
     double ys_2[24];
-    
+
     for (int i = 0; i < 24; i++)
     {
         common_xs[i] = i;
@@ -144,7 +195,7 @@ int graph_comparison_scatter_exec(DataType type1, DataType type2, Datapoint *dat
 
     DrawImageOnImage(combined, image1, 0, 0);
     DrawImageOnImage(combined, image2, 640, 0);
-    
+
     size_t length;
     double *pngdata = ConvertToPNG(&length, combined);
     WriteToFile(pngdata, length, "graph.png");
@@ -170,17 +221,17 @@ GraphParams graph_input(void)
     };
 
     GraphParams input = {0};
-    
+
     printf("Choose a which type of graph you wish to be printed:\n\n");
-    
+
     for (int i = 0; i < MAX_GRAPH_TYPE; i++)
     {
         printf("%d. %s\n", i+1, GraphType_strings[i]);
     }
-    
+
     scanf(" %d", &input.graph_type);
     input.graph_type--;
-    while (input.graph_type >= MAX_GRAPH_TYPE) 
+    while (input.graph_type >= MAX_GRAPH_TYPE)
     {
         printf("Please choose a valid graph type.\n");
         scanf(" %d", &input.graph_type);
@@ -189,14 +240,14 @@ GraphParams graph_input(void)
 
     printf("You have chosen: ");
     printf("%s\n", GraphType_strings[input.graph_type]);
-    
+
     printf("Which data do you want to graph?\n\n");
 
     for (int i = 0; i < MAX_DATA_TYPE; i++)
     {
         printf("%d. %s\n", i+1, DataType_strings[i]);
     }
-    
+
     scanf(" %d", &input.data_type);
     input.data_type--;
     while (input.data_type >= MAX_DATA_TYPE)
@@ -205,14 +256,14 @@ GraphParams graph_input(void)
         scanf(" %d", &input.data_type);
         input.data_type--;
     }
-    
+
     printf("You have chosen: ");
-    printf("%s\n", DataType_strings[input.data_type]); 
+    printf("%s\n", DataType_strings[input.data_type]);
 
     printf("Which day do you wish to see the graph for?\n");
-    printf("Please input in format yyyy-MM-dd\n");    
+    printf("Please input in format yyyy-MM-dd\n");
     input.day = time_input();
-    
+
     return input;
 }
 
@@ -220,17 +271,19 @@ void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
 {
     int total_rows;
     Datapoint* data = GetCSVData(&total_rows);
-    
+
     switch (graph_type)
     {
     case SCATTERPLOT:
         graph_scatterplot_exec(data_type, data, &day);
         system("graph.png");
         break;
-        
+
     case HISTOGRAM:
+        graph_barplot_exec(data_type, data, &day);
+        system("graph.png");
         break;
-    
+
     case COMPARISON:
         //clear_terminal();
         printf("Which type do you want to compare to?\n");
@@ -238,7 +291,7 @@ void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
         {
             wprintf(L"%d. %s\n", i+1, type_strings[i]);
         }
-        
+
         DataType second_type;
         scanf(" %d", &second_type);
         second_type -= 1;
@@ -247,7 +300,7 @@ void graph_exec(GraphTypes graph_type, DataType data_type, struct tm day)
         graph_comparison_scatter_exec(data_type, second_type, data, &day);
         system("graph.png");
         break;
-    
+
     default:
         break;
     }
