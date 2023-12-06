@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "cmath": "c",
+        "exception": "c",
+        "type_traits": "c",
+        "limits": "c",
+        "*.tcc": "c",
+        "typeinfo": "c",
+        "stdio.h": "c",
+        "stdincludes.h": "c",
+        "csvread.h": "c"
+    }
+}
