@@ -110,7 +110,7 @@ void calculate_appliance_run(void)
 
 //run 
     int total_rows;
-    Datapoint* data = readCSV("datafiler/DK-DK2_2022_hourly.csv", &total_rows, true);
+    Datapoint* data = GetCSVData(&total_rows);
     Datapoint* start_point;
     for(start_point = data; start_point < data+total_rows; start_point++)
     {
@@ -151,6 +151,5 @@ void calculate_appliance_run(void)
         printf("The best time on %s is now\n", app.name);
     }
 
-    free(data);
 }
 
