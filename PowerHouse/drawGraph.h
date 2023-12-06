@@ -3,7 +3,7 @@ typedef enum GraphTypes {
     HISTOGRAM,
     COMPARISON,
     MAX_GRAPH_TYPE,
-
+    
 } GraphTypes;
 
 typedef enum DataType {
