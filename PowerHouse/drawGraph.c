@@ -231,7 +231,7 @@ GraphParams graph_input(void)
     
     scanf(" %d", &input.graph_type);
     input.graph_type--;
-    while (input.graph_type >= MAX_GRAPH_TYPE)
+    while (input.graph_type >= MAX_GRAPH_TYPE) 
     {
         printf("Please choose a valid graph type.\n");
         scanf(" %d", &input.graph_type);
@@ -258,10 +258,10 @@ GraphParams graph_input(void)
     }
     
     printf("You have chosen: ");
-    printf("%s\n", DataType_strings[input.data_type]);
+    printf("%s\n", DataType_strings[input.data_type]); 
 
     printf("Which day do you wish to see the graph for?\n");
-    printf("Please input in format yyyy-MM-dd\n");
+    printf("Please input in format yyyy-MM-dd\n");    
     input.day = time_input();
     
     return input;
