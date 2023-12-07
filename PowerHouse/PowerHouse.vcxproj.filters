@@ -18,12 +18,6 @@
     <ClCompile Include="Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="setSettings.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="readSettings.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="appliance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,9 +51,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="appliance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="setSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="csvRead.h">

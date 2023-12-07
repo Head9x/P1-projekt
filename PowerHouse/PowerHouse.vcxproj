@@ -28,8 +28,6 @@
     <ClCompile Include="MenuFunctions.c" />
     <ClCompile Include="pbPlots\pbPlots.c" />
     <ClCompile Include="pbPlots\supportLib.c" />
-    <ClCompile Include="readSettings.c" />
-    <ClCompile Include="setSettings.c" />
     <ClCompile Include="SettingHandler.c" />
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +39,6 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="pbPlots\pbPlots.h" />
     <ClInclude Include="pbPlots\supportLib.h" />
-    <ClInclude Include="setSettings.h" />
     <ClInclude Include="SettingHandler.h" />
   </ItemGroup>
   <ItemGroup>

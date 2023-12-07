@@ -11,8 +11,6 @@ typedef enum MENU
     menu_appliance,
     menu_data_print,
     menu_graph,
-    menu_time,
-    menu_carbon,
 
     menu_run_appliance,
 
