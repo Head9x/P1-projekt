@@ -28,12 +28,10 @@ typedef struct menu_item
 *  Has to be in the same order as enum MENU
 */
 menu_item menus[MENU_MAX_COUNT] = {
-    {menu_start, 's', 6, {menu_appliance, menu_data_print, menu_time, menu_carbon, menu_graph, menu_run_appliance}, "Start menu", "start menu description here", "start menu help here"},
+    {menu_start, 's', 4, {menu_appliance, menu_data_print, menu_graph, menu_run_appliance}, "Start menu", "start menu description here", "start menu help here"},
     {menu_appliance, 'a', 3, { menu_appliance_print, menu_appliance_upsert, menu_appliance_remove,}, "Appliance menu", "Interact with your current appliances", "help"},
     {menu_data_print, 'p', 0, {0}, "Print data", "print data description", "print data help"},
     {menu_graph, 'g', 0, {0}, "Draw Graph", "Draws a test graph", "Graph Help"},
-    {menu_time, 't', 0, {0}, "Time menu", "time menu description here", "time menu help here"},
-    {menu_carbon, 'c', 0, {0}, "Carbon menu", "carbon menu description here", "carbon menu help here"},
 
     {menu_run_appliance, 'r', 0, {0}, "Run appliance", "Calculate best time to run an appliance", "help"},
 
@@ -51,8 +49,6 @@ void (*functions[MENU_MAX_COUNT])(void) = {
     0,
     &data_print_function,
     &graph_draw,
-    0,
-    0,
 
     &calculate_appliance_run,
 
