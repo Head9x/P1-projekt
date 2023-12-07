@@ -10,6 +10,11 @@ static char _path[LINE_LENGTH];
 static int number_of_settings = 0;
 static setting settings[MAX_NUMBER_OF_SETTINGS];
 
+int GetSettingsCount()
+{
+    return number_of_settings;
+}
+
 // Sets the path to the settings file, use NULL for default 
 void SetSettingPath(const char* path)
 {
