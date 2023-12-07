@@ -6,6 +6,9 @@ typedef struct{
 		value [250];
 }setting;
 
+// Returns the number of settings
+extern int GetSettingsCount();
+
 // Sets the path to the settings file, use NULL for default 
 extern void SetSettingPath(const char* path);
 

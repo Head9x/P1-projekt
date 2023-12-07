@@ -52,7 +52,7 @@ int ends_with(const char* suffix, const char* str) {
 void insert_appliances_from_settings()
 {
 	setting* settings = GetAllSettings();
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < GetSettingsCount(); i++)
 	{
 		char* ptr;
 		Appliance a;
