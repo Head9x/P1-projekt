@@ -24,6 +24,8 @@ int main(int argc, char *argv[])
 	if (!(settings_set && datasource_set))
 		return 1;
 
+	insert_appliances_from_settings();
+
 	run_menu(menu_start);
 
 	return 0;
@@ -32,6 +34,39 @@ int main(int argc, char *argv[])
 void run_menu (int startup_menu) {
 	MenuID = startup_menu;
 	exec_menu(MenuID);
+}
+
+bool starts_with(const char* pre, const char* str)
+{
+	return strncmp(pre, str, strlen(pre)) == 0;
+}
+
+int ends_with(const char* suffix, const char* str) {
+	size_t str_len = strlen(str);
+	size_t suffix_len = strlen(suffix);
+
+	return (str_len >= suffix_len) &&
+		(!memcmp(str + str_len - suffix_len, suffix, suffix_len));
+}
+
+void insert_appliances_from_settings()
+{
+	setting* settings = GetAllSettings();
+	for (int i = 0; i < GetSettingsCount(); i++)
+	{
+		char* ptr;
+		Appliance a;
+		if (starts_with("appliance_", settings[i].key))
+		{
+			if (ends_with("_wh", settings[i].key))
+				a.wh = strtod(settings[i].value, &ptr);
+			else if (ends_with("_runtime", settings[i].key))
+				a.runTime = strtod(settings[i].value, &ptr);
+			else
+				sprintf(a.name, "%s", settings[i].value);
+			ApplianceUpsert(a);
+		}
+	}
 }
 
 void handle_exe_arguments(int argc, char* argv[]) 
