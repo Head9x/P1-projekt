@@ -30,12 +30,28 @@ void appliance_upsert_function(void)
     Appliance a;
 
     printf("Enter appliance name: ");
-    scanf(" %s", &a.name);
+    scanf(" %s", a.name);
     printf("Enter appliance wh: ");
     scanf(" %lf", &a.wh);
     printf("Enter appliance runTime: ");
     scanf(" %lf", &a.runTime);
     ApplianceUpsert(a);
+
+    char buffer_key[80];
+    char buffer_value[20];
+
+    sprintf(buffer_key, "appliance_%s", a.name);
+    sprintf(buffer_value, "%s", a.name);
+
+    UpsertSetting(buffer_key, buffer_value);
+
+    sprintf(buffer_key, "appliance_%s_wh", a.name);
+    sprintf(buffer_value, "%.0lf", a.wh);
+    UpsertSetting(buffer_key, buffer_value);
+
+    sprintf(buffer_key, "appliance_%s_runtime", a.name);
+    sprintf(buffer_value, "%.0lf", a.runTime);
+    UpsertSetting(buffer_key, buffer_value);
 
     printf("Update succesful \n");
 }
@@ -43,9 +59,19 @@ void appliance_remove_function(void)
 {
     clear_terminal();
     char c[100];
+    char buffer[100];
 
     printf("Enter appliance name: ");
     scanf(" %s", &c);
+
+    sprintf(buffer, "appliance_%s", c);
+    RemoveSetting(buffer);
+
+    sprintf(buffer, "appliance_%s_wh", c);
+    RemoveSetting(buffer);
+
+    sprintf(buffer, "appliance_%s_runtime", c);
+    RemoveSetting(buffer);
 
     printf("appliance removed %s \n", ApplianceRemove(c) ? "Successfully" : "Unsuccessfully");
 }
