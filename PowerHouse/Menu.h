@@ -11,8 +11,6 @@ typedef enum MENU
     menu_appliance,
     menu_data_print,
     menu_graph,
-    menu_time,
-    menu_carbon,
 
     menu_run_appliance,
 
@@ -31,6 +29,7 @@ void clear_terminal();
 int print_menu(int);
 int exec_menu(int);
 char standardScan();
+void printDivider();
 
 void appliance_print_function(void);
 void appliance_upsert_function(void);
