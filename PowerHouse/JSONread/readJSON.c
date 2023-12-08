@@ -69,11 +69,9 @@ int readBattIO() {
     
         // delete the JSON object 
         cJSON_Delete(json); 
-        
+        return resultArray;
     }
-
     fclose(fp); // Don't forget to close the file when done
-    return 0;
 }
 
 int readBattpercentage() { 
@@ -120,10 +118,9 @@ int readBattpercentage() {
     
         // delete the JSON object 
         cJSON_Delete(json); 
+        return resultArray;
     }
-
     fclose(fp); // Don't forget to close the file when done
-    return resultArray;
 }
 
 int readSolar() { 
@@ -168,8 +165,7 @@ int readSolar() {
     
         // delete the JSON object 
         cJSON_Delete(json); 
+        return resultArray;
     }
-
     fclose(fp); // Don't forget to close the file when done
-    return resultArray;
 }
