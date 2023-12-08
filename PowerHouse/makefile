@@ -1,6 +1,6 @@
-OBJS    = Main.o Menu.o MenuFunctions.o SettingHandler.o drawGraph.o csvRead.o appliance.o pbPlots/pbPlots.o pbPlots/supportLib.o
-SOURCE  = Main.c Menu.c MenuFunctions.c SettingHandler.c drawGraph.c csvRead.c appliance.c pbPlots/pbPlots.c pbPlots/supportLib.c
-HEADER  = Main.h Menu.h SettingHandler.h stdincludes.h drawGraph.h csvRead.h appliance.h pbPlots/pbPlots.h pbPlots/supportLib.h
+OBJS    = Main.o Menu.o MenuFunctions.o SettingHandler.o drawGraph.o csvRead.o appliance.o pbPlots/pbPlots.o pbPlots/supportLib.o JSONread/cJSON.o JSONread/readJSON.o
+SOURCE  = Main.c Menu.c MenuFunctions.c SettingHandler.c drawGraph.c csvRead.c appliance.c pbPlots/pbPlots.c pbPlots/supportLib.c JSONread/cJSON.c JSONread/readJSON.c
+HEADER  = Main.h Menu.h SettingHandler.h stdincludes.h drawGraph.h csvRead.h appliance.h pbPlots/pbPlots.h pbPlots/supportLib.h JSONread/cJSON.h
 OUT     = a.out
 CC       = gcc
 FLAGS    = -g -c -Wall
@@ -35,6 +35,12 @@ pbPlots/pbPlots.o: pbPlots/pbPlots.c
 
 pbPlots/supportLib.o: pbPlots/supportLib.c
 	$(CC) $(FLAGS) pbPlots/supportLib.c -o pbPlots/supportLib.o 
+
+JSONread/cJSON.o: JSONread/cJSON.c
+	$(CC) $(FLAGS) JSONread/cJSON.c -o JSONread/cJSON.o 
+
+JSONread/readJSON.o: JSONread/readJSON.c
+	$(CC) $(FLAGS) JSONread/readJSON.c -o JSONread/readJSON.o 
 
 
 clean:
