@@ -7,7 +7,7 @@
 * Open PowerShell and navigate to `\P1-projekt\PowerHouse\`
 * Execute the application by running the command `.\PowerHouse.exe`
 ### Visual Studio - Windows
-* Open the Solution-file in Visual Studio, and build and run the project
+* Open the Solution-file in Visual Studio, and build and run the project.
 ### Make
 * Navigate to `\P1-projekt\PowerHouse\`
 * Run the command `make`. (You must have GNU make or a compatible make-program installed).
