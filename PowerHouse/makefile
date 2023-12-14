@@ -1,10 +1,11 @@
 OBJS    = Main.o Menu.o MenuFunctions.o SettingHandler.o drawGraph.o csvRead.o appliance.o pbPlots/pbPlots.o pbPlots/supportLib.o graphUtils.o
 SOURCE  = Main.c Menu.c MenuFunctions.c SettingHandler.c drawGraph.c csvRead.c appliance.c pbPlots/pbPlots.c pbPlots/supportLib.c graphUtils.c
 HEADER  = Main.h Menu.h SettingHandler.h stdincludes.h drawGraph.h csvRead.h appliance.h pbPlots/pbPlots.h pbPlots/supportLib.h graphUtils.h
-OUT     = a.out
-CC       = gcc
-FLAGS    = -g -c -Wall
-LFLAGS   = -lm
+#OUT 	 = PowerHouse
+OUT     = PowerHouse.exe
+CC      = gcc
+FLAGS   = -g -c -Wall
+LFLAGS  = -lm
 
 all: $(OBJS)
 	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
